@@ -1,3 +1,5 @@
+from typing import Mapping, Any
+
 from worlds.AutoWorld import World
 from . import items, locations, options, regions, rules, web_world
 
@@ -11,7 +13,8 @@ class EasyDeliveryCoWorld(World):
 
     web = web_world.EasyDeliveryCoWebWorld()
 
-    # Options - TODO
+    options_dataclass = options.EasyDeliveryCoOptions
+    options: options.EasyDeliveryCoOptions
 
     location_name_to_id = locations.LOCATION_NAME_TO_ID
     item_name_to_id = items.ITEM_NAME_TO_ID
@@ -33,3 +36,8 @@ class EasyDeliveryCoWorld(World):
 
     def get_filler_item_name(self) -> str:
         return items.get_random_filler_item_name(self)
+
+    def fill_slot_data(self) -> Mapping[str, Any]:
+        return self.options.as_dict(
+            "payload_checks"
+        )

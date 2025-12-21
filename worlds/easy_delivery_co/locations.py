@@ -7,7 +7,25 @@ from BaseClasses import Location
 if TYPE_CHECKING:
     from .world import EasyDeliveryCoWorld
 
-LOCATION_NAME_TO_ID = {}
+LOCATION_NAME_TO_ID = {
+    "Deliver Big Box": 1,
+    "Deliver Big Box Stack": 2,
+    "Deliver Box Bunch": 3,
+    "Deliver Box Stack": 4,
+    "Deliver Crate": 5,
+    "Deliver Crate of Drinks": 6,
+    "Deliver Crate Stack": 7,
+    "Deliver Lots of Crates of Drinks": 8,
+    "Deliver Pizza Stack": 9,
+    "Deliver Pizza Stack Mega": 10,
+    "Deliver Plant Pot": 11,
+    "Deliver Plant Pot Bunch": 12,
+    "Deliver Plant Pot Stack": 13,
+    "Deliver Plant Pot Wide": 14,
+    "Deliver Sack": 15,
+    "Deliver Sack Stack": 16,
+    "Deliver Drink": 17,
+}
 
 TOWN_NAME_TO_ID = {
     "Upton": 11,
@@ -80,6 +98,16 @@ def create_regular_locations(world: EasyDeliveryCoWorld) -> None:
     snowy_peaks_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES))
     fishing_town_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES + FISHING_TOWN_NAMES))
     all_towns_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES + FISHING_TOWN_NAMES))
+
+    if world.options.payload_checks:
+        payload_locations = get_location_names_with_ids(
+            ["Deliver Big Box", "Deliver Big Box Stack", "Deliver Box Bunch", "Deliver Box Stack",
+             "Deliver Crate", "Deliver Crate of Drinks", "Deliver Crate Stack", "Deliver Lots of Crates of Drinks",
+             "Deliver Pizza Stack", "Deliver Pizza Stack Mega", "Deliver Plant Pot", "Deliver Plant Pot Bunch",
+             "Deliver Plant Pot Stack", "Deliver Plant Pot Wide", "Deliver Sack", "Deliver Sack Stack",
+             "Deliver Drink"]
+        )
+        mountain_town.add_locations(payload_locations, EasyDeliveryCoLocation)
 
     mountain_town.add_locations(mountain_town_locations, EasyDeliveryCoLocation)
     snowy_peaks.add_locations(snowy_peaks_locations, EasyDeliveryCoLocation)

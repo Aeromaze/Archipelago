@@ -129,8 +129,8 @@ def create_all_items(world: EasyDeliveryCoWorld) -> None:
         world.create_item("Bird Seed"),
         world.create_item("Bird Seed"),
         world.create_item("Bird Seed"),
-        world.create_item("Fishing Rod"),
-        world.create_item("Cooking Pot"),
+        # world.create_item("Fishing Rod"),
+        # world.create_item("Cooking Pot"),
     ]
 
 

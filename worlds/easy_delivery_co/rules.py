@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 def set_all_rules(world: EasyDeliveryCoWorld) -> None:
     set_all_entrance_rules(world)
-    set_all_location_rules(world)
+    # set_all_location_rules(world)
     set_completion_condition(world)
 
 
@@ -25,8 +25,7 @@ def set_all_entrance_rules(world: EasyDeliveryCoWorld) -> None:
     set_rule(mountain_town_to_all_towns, lambda state: state.has_all(("Snow Tires", "Lighter", "Bumper Bar"), world.player))
 
 
-def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
-    upton = world.get_location("Upton to Upton Delivery")
+# def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
 
 
 def set_completion_condition(world: EasyDeliveryCoWorld) -> None:

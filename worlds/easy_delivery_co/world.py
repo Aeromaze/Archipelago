@@ -39,5 +39,5 @@ class EasyDeliveryCoWorld(World):
 
     def fill_slot_data(self) -> Mapping[str, Any]:
         return self.options.as_dict(
-            "payload_checks", "perfect_deliveries"
+            "payload_checks", "perfect_deliveries", "blind_bags", "snowcats"
         )

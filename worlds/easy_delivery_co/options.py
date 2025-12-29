@@ -23,15 +23,37 @@ class PerfectDeliveries(Choice):
     default = option_off
 
 
+class BlindBags(Toggle):
+    """
+    Enable locations for buying blind bags.
+    """
+    display_name = "Blind Bags"
+
+
+class Snowcats(Choice):
+    """
+    Enable locations for snowcats.
+    """
+    display_name = "Snowcats"
+
+    option_off = 0
+    option_on = 1
+    option_exclude_easton = 2
+
+    default = option_off
+
+
 @dataclass
 class EasyDeliveryCoOptions(PerGameCommonOptions):
     payload_checks: PayloadChecks
     perfect_deliveries: PerfectDeliveries
+    blind_bags: BlindBags
+    snowcats: Snowcats
 
 
 option_groups = [
     OptionGroup(
         "Locations",
-        [PayloadChecks, PerfectDeliveries]
+        [PayloadChecks, PerfectDeliveries, BlindBags, Snowcats]
     )
 ]

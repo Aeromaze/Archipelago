@@ -14,13 +14,13 @@ def create_and_connect_regions(world: EasyDeliveryCoWorld) -> None:
 
 
 def create_all_regions(world: EasyDeliveryCoWorld) -> None:
-    upton = Region("Upton", world.player, world.multiworld)
+    # upton = Region("Upton", world.player, world.multiworld)
     mountain_town = Region("Mountain Town", world.player, world.multiworld)
     snowy_peaks = Region("Snowy Peaks", world.player, world.multiworld)
     fishing_town = Region("Fishing Town", world.player, world.multiworld)
     all_towns = Region("All towns", world.player, world.multiworld)
 
-    regions = [upton, mountain_town, snowy_peaks, fishing_town, all_towns]
+    regions = [mountain_town, snowy_peaks, fishing_town, all_towns]
 
     world.multiworld.regions += regions
 

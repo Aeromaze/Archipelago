@@ -89,14 +89,12 @@ FISHING_TOWN_NAMES = [
     "Smalton",
 ]
 
-remaining_deliveries = LOCATION_NAME_TO_ID.copy()
-
 
 class EasyDeliveryCoLocation(Location):
     game = "Easy Delivery Co."
 
 
-def get_delivery_location_names(town_names: list[str], world: EasyDeliveryCoWorld) -> list[str]:
+def get_delivery_location_names(town_names: list[str], remaining_deliveries, world: EasyDeliveryCoWorld) -> list[str]:
     locations = []
     for startTown in town_names:
         for endTown in town_names:
@@ -127,10 +125,12 @@ def create_regular_locations(world: EasyDeliveryCoWorld) -> None:
     fishing_town = world.get_region("Fishing Town")
     all_towns = world.get_region("All towns")
 
-    mountain_town_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES, world))
-    snowy_peaks_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES, world))
-    fishing_town_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES + FISHING_TOWN_NAMES, world))
-    all_towns_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES + FISHING_TOWN_NAMES, world))
+    remaining_deliveries = LOCATION_NAME_TO_ID.copy()
+
+    mountain_town_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES, remaining_deliveries, world))
+    snowy_peaks_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES, remaining_deliveries, world))
+    fishing_town_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES + FISHING_TOWN_NAMES, remaining_deliveries, world))
+    all_towns_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES + FISHING_TOWN_NAMES, remaining_deliveries, world))
 
     if world.options.payload_checks:
         payload_locations = get_location_names_with_ids(

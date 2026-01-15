@@ -43,17 +43,70 @@ class Snowcats(Choice):
     default = option_off
 
 
+class RadioTowers(Choice):
+    """
+    Enable locations for radio towers. TODO
+    """
+    display_name = "Radio Towers"
+
+    option_off = 0
+    option_on = 1
+    option_only_checks = 2
+    option_only_items = 3
+
+    default = option_off
+
+
+class CarUpgrades(Choice):
+    """
+    How car upgrades should work when received. TODO
+
+    Require Buying - You will still have to buy the upgrade after receiving it
+    Receive Directly - The upgrade will be installed immediately
+    """
+    display_name = "Car Upgrades"
+
+    option_require_buying = 0
+    option_receive_directly = 1
+
+    default = option_require_buying
+
+
+class BlockedTunnels(Choice):
+    """
+    Require an item to travel through a tunnel.
+    """
+    display_name = "Blocked Tunnels"
+
+    option_off = 0
+    option_on = 1
+    option_factory_only = 2
+
+    default = option_off
+
+
+class RequireHandheldRadio(Toggle):
+    """
+    Require having the Handheld Radio to enter the factory.
+    """
+    display_name = "Require Handheld Radio"
+
+
 @dataclass
 class EasyDeliveryCoOptions(PerGameCommonOptions):
     payload_checks: PayloadChecks
     perfect_deliveries: PerfectDeliveries
     blind_bags: BlindBags
     snowcats: Snowcats
+    radio_towers: RadioTowers
+    car_upgrades: CarUpgrades
+    blocked_tunnels: BlockedTunnels
+    require_handheld_radio: RequireHandheldRadio
 
 
 option_groups = [
     OptionGroup(
         "Locations",
-        [PayloadChecks, PerfectDeliveries, BlindBags, Snowcats]
+        [PayloadChecks, PerfectDeliveries, BlindBags, Snowcats, RadioTowers]
     )
 ]

@@ -31,6 +31,10 @@ ITEM_NAME_TO_ID = {
     "Bumper Bar": 3,
     "Ice Chains": 4,
     "Money": 10,
+    "Snowy Peaks Tunnel": 11,
+    "Fishing Town Tunnel": 12,
+    "Factory Tunnel": 13,
+    "Radio Tower": 20,
 }
 
 DEFAULT_ITEM_CLASSIFICATIONS = {
@@ -57,6 +61,10 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Bumper Bar": ItemClassification.progression,
     "Ice Chains": ItemClassification.progression,
     "Money": ItemClassification.filler,
+    "Snowy Peaks Tunnel": ItemClassification.progression,
+    "Fishing Town Tunnel": ItemClassification.progression,
+    "Factory Tunnel": ItemClassification.progression,
+    "Radio Tower": ItemClassification.progression,
 }
 
 
@@ -137,6 +145,18 @@ def create_all_items(world: EasyDeliveryCoWorld) -> None:
         # world.create_item("Fishing Rod"),
         # world.create_item("Cooking Pot"),
     ]
+
+    if world.options.blocked_tunnels == 1:
+        itempool.append(world.create_item("Snowy Peaks Tunnel"))
+        itempool.append(world.create_item("Fishing Town Tunnel"))
+        itempool.append(world.create_item("Factory Tunnel"))
+    elif world.options.blocked_tunnels == 2:
+        itempool.append(world.create_item("Factory Tunnel"))
+    if world.options.radio_towers == 1 or world.options.radio_towers == 3:
+        itempool.append(world.create_item("Radio Tower"))
+        itempool.append(world.create_item("Radio Tower"))
+        itempool.append(world.create_item("Radio Tower"))
+        itempool.append(world.create_item("Radio Tower"))
 
 
     number_of_items = len(itempool)

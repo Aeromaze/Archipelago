@@ -50,6 +50,10 @@ LOCATION_NAME_TO_ID = {
     "Snowcat Foreman": 50,
     "Snowcat Gus": 51,
     "Snowcat Seb": 52,
+    "Upton Radio Tower": 60,
+    "Easton Radio Tower": 61,
+    "Snowy Peaks Radio Tower": 62,
+    "Fishing Town Radio Tower": 63,
 }
 
 TOWN_NAME_TO_ID = {
@@ -121,16 +125,32 @@ def create_all_locations(world: EasyDeliveryCoWorld) -> None:
 
 def create_regular_locations(world: EasyDeliveryCoWorld) -> None:
     mountain_town = world.get_region("Mountain Town")
+    snowy_peaks_early = world.get_region("Snowy Peaks early")
     snowy_peaks = world.get_region("Snowy Peaks")
+    fishing_town_entry = world.get_region("Fishing Town entry")
     fishing_town = world.get_region("Fishing Town")
     all_towns = world.get_region("All towns")
 
     remaining_deliveries = LOCATION_NAME_TO_ID.copy()
 
-    mountain_town_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES, remaining_deliveries, world))
-    snowy_peaks_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES, remaining_deliveries, world))
-    fishing_town_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES + FISHING_TOWN_NAMES, remaining_deliveries, world))
-    all_towns_locations = get_location_names_with_ids(get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES + FISHING_TOWN_NAMES, remaining_deliveries, world))
+    mountain_town_locations = get_location_names_with_ids(
+        get_delivery_location_names(MOUNTAIN_TOWN_NAMES, remaining_deliveries, world))
+    if world.options.perfect_deliveries == 0 or world.options.perfect_deliveries == 1:
+        snowy_peaks_early_locations = get_location_names_with_ids(["Winton to Munton Delivery", "Munton to Winton Delivery"])
+        del remaining_deliveries["Winton to Munton Delivery"]
+        del remaining_deliveries["Munton to Winton Delivery"]
+        snowy_peaks_early.add_locations(snowy_peaks_early_locations, EasyDeliveryCoLocation)
+    if world.options.perfect_deliveries == 1 or world.options.perfect_deliveries == 2:
+        snowy_peaks_early_locations = get_location_names_with_ids(["Winton to Munton Perfect Delivery", "Munton to Winton Perfect Delivery"])
+        del remaining_deliveries["Winton to Munton Perfect Delivery"]
+        del remaining_deliveries["Munton to Winton Perfect Delivery"]
+        snowy_peaks_early.add_locations(snowy_peaks_early_locations, EasyDeliveryCoLocation)
+    snowy_peaks_locations = get_location_names_with_ids(
+        get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES, remaining_deliveries, world))
+    fishing_town_locations = get_location_names_with_ids(
+        get_delivery_location_names(MOUNTAIN_TOWN_NAMES + FISHING_TOWN_NAMES, remaining_deliveries, world))
+    all_towns_locations = get_location_names_with_ids(
+        get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES + FISHING_TOWN_NAMES, remaining_deliveries, world))
 
     if world.options.payload_checks:
         payload_locations = get_location_names_with_ids(
@@ -156,24 +176,33 @@ def create_regular_locations(world: EasyDeliveryCoWorld) -> None:
              "Blind Bag 4 Fishing Town"]
         )
         mountain_town.add_locations(blind_bag_locations_mt, EasyDeliveryCoLocation)
-        snowy_peaks.add_locations(blind_bag_locations_sp, EasyDeliveryCoLocation)
+        snowy_peaks_early.add_locations(blind_bag_locations_sp, EasyDeliveryCoLocation)
         fishing_town.add_locations(blind_bag_locations_ft, EasyDeliveryCoLocation)
 
     if world.options.snowcats != 0:
         snowcats_mt = get_location_names_with_ids(
-            ["Snowcat Theo", "Snowcat Cici"]
+            ["Snowcat Theo", "Snowcat Cici", "Snowcat Tooey", "Snowcat Gus"]
         )
         if world.options.snowcats == 1:
             mountain_town.add_locations(get_location_names_with_ids(["Snowcat Ada"]), EasyDeliveryCoLocation)
         snowcats_sp = get_location_names_with_ids(
-            ["Snowcat Fives", "Snowcat Sixo", "Snowcat Fit", "Snowcat Seb", "Snowcat Tooey", "Snowcat Gus"]
+            ["Snowcat Fives", "Snowcat Sixo", "Snowcat Fit", "Snowcat Seb"]
         )
         snowcats_ft = get_location_names_with_ids(
-            ["Snowcat Reed", "Snowcat Fortino", "Snowcat Ellie", "Snowcat Foreman"]
+            ["Snowcat Fortino", "Snowcat Ellie", "Snowcat Foreman"]
         )
         mountain_town.add_locations(snowcats_mt, EasyDeliveryCoLocation)
         snowy_peaks.add_locations(snowcats_sp, EasyDeliveryCoLocation)
         fishing_town.add_locations(snowcats_ft, EasyDeliveryCoLocation)
+        fishing_town_entry.add_locations(get_location_names_with_ids(["Snowcat Reed"]), EasyDeliveryCoLocation)
+
+    if world.options.radio_towers == 1 or world.options.radio_towers == 2:
+        radio_mt = get_location_names_with_ids(
+            ["Upton Radio Tower", "Easton Radio Tower"]
+        )
+        mountain_town.add_locations(radio_mt, EasyDeliveryCoLocation)
+        snowy_peaks.add_locations(get_location_names_with_ids(["Snowy Peaks Radio Tower"]), EasyDeliveryCoLocation)
+        fishing_town.add_locations(get_location_names_with_ids(["Fishing Town Radio Tower"]), EasyDeliveryCoLocation)
 
     mountain_town.add_locations(mountain_town_locations, EasyDeliveryCoLocation)
     snowy_peaks.add_locations(snowy_peaks_locations, EasyDeliveryCoLocation)

@@ -29,7 +29,7 @@ def has_snow_tires(state: CollectionState, world: "EasyDeliveryCoWorld") -> bool
 
 def can_open_ft_gate(state: CollectionState, world: "EasyDeliveryCoWorld") -> bool:
     if world.options.radio_towers == 1 or world.options.radio_towers == 3:
-        return state.has("Radio Tower", world.player, 3)
+        return state.has("Radio Tower", world.player, 3) and state.has("Bumper Bar", world.player)
     else:
         return state.can_reach_region("Snowy Peaks", world.player) and state.has("Bumper Bar", world.player)
 

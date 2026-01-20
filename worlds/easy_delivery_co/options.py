@@ -50,9 +50,9 @@ class RadioTowers(Choice):
     display_name = "Radio Towers"
 
     option_off = 0
-    #option_on = 1
+    option_on = 1
     option_only_checks = 2
-    #option_only_items = 3
+    option_only_items = 3
 
     default = option_off
 

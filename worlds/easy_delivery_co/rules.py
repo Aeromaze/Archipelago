@@ -87,12 +87,8 @@ def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
         radio_ft = world.get_location("Fishing Town Radio Tower")
         set_rule(radio_easton,
                  lambda state: (state.has_any(("Lighter", "Snow Tires"), world.player)))
-        if world.options.car_upgrades == 0:
-            set_rule(radio_ft,
-                     lambda state: (state.has_all(("Ice Chains", "Bumper Bar"), world.player)))
-        else:
-            set_rule(radio_ft,
-                     lambda state: (state.has("Ice Chains", world.player)) and has_snow_tires(state, world))
+        set_rule(radio_ft,
+                 lambda state: (state.has_all(("Ice Chains", "Bumper Bar"), world.player)))
 
 
 # TODO Consider changing to victory event

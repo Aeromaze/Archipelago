@@ -45,21 +45,21 @@ class Snowcats(Choice):
 
 class RadioTowers(Choice):
     """
-    Enable locations for radio towers. TODO
+    Enable locations for radio towers. WIP
     """
     display_name = "Radio Towers"
 
     option_off = 0
-    option_on = 1
+    #option_on = 1
     option_only_checks = 2
-    option_only_items = 3
+    #option_only_items = 3
 
     default = option_off
 
 
 class CarUpgrades(Choice):
     """
-    How car upgrades should work when received. TODO
+    How car upgrades should work when received.
 
     Require Buying - You will still have to buy the upgrade after receiving it
     Receive Directly - The upgrade will be installed immediately

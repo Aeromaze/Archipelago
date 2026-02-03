@@ -80,7 +80,7 @@ def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
         set_rule(snowcat_fortino,
                  lambda state: has_snow_tires(state, world))
         set_rule(snowcat_foreman,
-                 lambda state: has_snow_tires(state, world) or state.has("Ice Chains", world.player))
+                 lambda state: state.has("Ice Chains", world.player))
 
     if world.options.radio_towers == 1 or world.options.radio_towers == 2:
         radio_easton = world.get_location("Easton Radio Tower")

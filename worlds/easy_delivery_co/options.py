@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import Toggle, PerGameCommonOptions, OptionGroup, Choice
+from Options import Toggle, PerGameCommonOptions, OptionGroup, Choice, DefaultOnToggle
 
 
 class PayloadChecks(Toggle):
@@ -85,7 +85,7 @@ class BlockedTunnels(Choice):
     default = option_off
 
 
-class RequireHandheldRadio(Toggle):
+class RequireHandheldRadio(DefaultOnToggle):
     """
     Require having the Handheld Radio to enter the factory.
     """

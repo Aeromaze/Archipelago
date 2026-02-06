@@ -45,7 +45,8 @@ class Snowcats(Choice):
 
 class RadioTowers(Choice):
     """
-    Enable locations for radio towers. WIP
+    Enable locations for radio towers.
+    Receiving radio towers as items is WIP.
     """
     display_name = "Radio Towers"
 

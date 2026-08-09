@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+import math
+
 from BaseClasses import Item, ItemClassification
 
 if TYPE_CHECKING:
@@ -35,6 +37,15 @@ ITEM_NAME_TO_ID = {
     "Fishing Town Tunnel": 12,
     "Factory Tunnel": 13,
     "Radio Tower": 20,
+    "Upton": 30,
+    "Weston": 31,
+    "Easton": 32,
+    "Winton": 33,
+    "Munton": 34,
+    "Lopton": 35,
+    "Clifton": 36,
+    "Damton": 37,
+    "Smalton": 38,
 }
 
 DEFAULT_ITEM_CLASSIFICATIONS = {
@@ -65,6 +76,15 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Fishing Town Tunnel": ItemClassification.progression,
     "Factory Tunnel": ItemClassification.progression,
     "Radio Tower": ItemClassification.progression,
+    "Upton": ItemClassification.progression,
+    "Weston": ItemClassification.progression,
+    "Easton": ItemClassification.progression,
+    "Winton": ItemClassification.progression,
+    "Munton": ItemClassification.progression,
+    "Lopton": ItemClassification.progression,
+    "Clifton": ItemClassification.progression,
+    "Damton": ItemClassification.progression,
+    "Smalton": ItemClassification.progression,
 }
 
 
@@ -73,7 +93,33 @@ class EasyDeliveryCoItem(Item):
 
 
 def get_random_filler_item_name(world: EasyDeliveryCoWorld) -> str:
-    return "Energy Drink"
+    match (math.floor(world.random.random() * 35)):
+        case 0:
+            return "Energy Drink"
+        # case 1:
+        #     return "Empty Can"
+        case 2 | 3:
+            return "Firewood"
+        case 4:
+            return "Bird Seed"
+        case 5 | 6 | 7:
+            return "Coffee"
+        case 8 | 9:
+            return "Coffee Powder"
+        case 10 | 11 | 12:
+            return "Tea"
+        case 13 | 14:
+            return "Tea Bags"
+        case 15:
+            return "Fish"
+        case 16 | 17:
+            return "Fish Soup"
+        case 18 | 19:
+            return "Duct Tape"
+        case 20 | 21 | 22 | 23:
+            return "Money"
+        case _:
+            return "Energy Drink"
 
 
 def create_item_with_correct_classification(world: EasyDeliveryCoWorld, name: str) -> EasyDeliveryCoItem:
@@ -88,60 +134,6 @@ def create_all_items(world: EasyDeliveryCoWorld) -> None:
         world.create_item("Bumper Bar"),
         world.create_item("Ice Chains"),
         world.create_item("Lighter"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Money"),
-        world.create_item("Coffee"),
-        world.create_item("Coffee"),
-        world.create_item("Coffee"),
-        world.create_item("Coffee"),
-        world.create_item("Coffee"),
-        world.create_item("Coffee"),
-        world.create_item("Coffee"),
-        world.create_item("Coffee"),
-        world.create_item("Coffee"),
-        world.create_item("Coffee"),
-        world.create_item("Tea"),
-        world.create_item("Tea"),
-        world.create_item("Tea"),
-        world.create_item("Tea"),
-        world.create_item("Tea"),
-        world.create_item("Tea"),
-        world.create_item("Tea"),
-        world.create_item("Tea"),
-        world.create_item("Tea"),
-        world.create_item("Tea"),
-        world.create_item("Bird Seed"),
-        world.create_item("Bird Seed"),
-        world.create_item("Bird Seed"),
-        world.create_item("Bird Seed"),
-        world.create_item("Bird Seed"),
-        world.create_item("Duct Tape"),
-        world.create_item("Duct Tape"),
-        world.create_item("Duct Tape"),
-        world.create_item("Duct Tape"),
-        world.create_item("Duct Tape"),
         # world.create_item("Fishing Rod"),
         # world.create_item("Cooking Pot"),
     ]
@@ -157,6 +149,18 @@ def create_all_items(world: EasyDeliveryCoWorld) -> None:
         itempool.append(world.create_item("Radio Tower"))
         itempool.append(world.create_item("Radio Tower"))
         itempool.append(world.create_item("Radio Tower"))
+    if world.options.lock_towns == 1:
+        itempool.append(world.create_item("Weston"))
+        itempool.append(world.create_item("Easton"))
+        itempool.append(world.create_item("Winton"))
+        itempool.append(world.create_item("Munton"))
+        itempool.append(world.create_item("Lopton"))
+        itempool.append(world.create_item("Clifton"))
+        itempool.append(world.create_item("Damton"))
+        itempool.append(world.create_item("Smalton"))
+
+        starting_town = world.create_item("Upton")
+        world.push_precollected(starting_town)
 
 
     number_of_items = len(itempool)

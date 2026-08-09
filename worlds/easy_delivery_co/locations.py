@@ -68,12 +68,25 @@ TOWN_NAME_TO_ID = {
     "Smalton": 33,
 }
 
+CITY_NAME_TO_ID = {
+    "Mountain Town": 10,
+    "Snowy Peaks": 20,
+    "Fishing Town": 30,
+}
+
 for startTown in TOWN_NAME_TO_ID:
     for endTown in TOWN_NAME_TO_ID:
         LOCATION_NAME_TO_ID[startTown + " to " + endTown + " Delivery"] = (
             int(str(TOWN_NAME_TO_ID[startTown]) + str(TOWN_NAME_TO_ID[endTown])))
         LOCATION_NAME_TO_ID[startTown + " to " + endTown + " Perfect Delivery"] = (
             int("1" + str(TOWN_NAME_TO_ID[startTown]) + str(TOWN_NAME_TO_ID[endTown])))
+
+for startCity in CITY_NAME_TO_ID:
+    for endCity in CITY_NAME_TO_ID:
+        LOCATION_NAME_TO_ID[startCity + " to " + endCity + " Delivery"] = (
+            int(str(CITY_NAME_TO_ID[startCity]) + str(CITY_NAME_TO_ID[endCity])))
+        LOCATION_NAME_TO_ID[startCity + " to " + endCity + " Perfect Delivery"] = (
+            int("1" + str(CITY_NAME_TO_ID[startCity]) + str(CITY_NAME_TO_ID[endCity])))
 
 MOUNTAIN_TOWN_NAMES = [
     "Upton",
@@ -132,6 +145,7 @@ def create_regular_locations(world: EasyDeliveryCoWorld) -> None:
     all_towns = world.get_region("All towns")
 
     remaining_deliveries = LOCATION_NAME_TO_ID.copy()
+    all_towns_locations = {}
 
     mountain_town_locations = get_location_names_with_ids(
         get_delivery_location_names(MOUNTAIN_TOWN_NAMES, remaining_deliveries, world))
@@ -145,12 +159,31 @@ def create_regular_locations(world: EasyDeliveryCoWorld) -> None:
         del remaining_deliveries["Winton to Munton Perfect Delivery"]
         del remaining_deliveries["Munton to Winton Perfect Delivery"]
         snowy_peaks_early.add_locations(snowy_peaks_early_locations, EasyDeliveryCoLocation)
-    snowy_peaks_locations = get_location_names_with_ids(
-        get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES, remaining_deliveries, world))
-    fishing_town_locations = get_location_names_with_ids(
-        get_delivery_location_names(MOUNTAIN_TOWN_NAMES + FISHING_TOWN_NAMES, remaining_deliveries, world))
-    all_towns_locations = get_location_names_with_ids(
-        get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES + FISHING_TOWN_NAMES, remaining_deliveries, world))
+    if world.options.intercity_deliveries == 1 or world.options.intercity_deliveries == 3:
+        snowy_peaks_locations = get_location_names_with_ids(
+            get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES, remaining_deliveries, world))
+        fishing_town_locations = get_location_names_with_ids(
+            get_delivery_location_names(MOUNTAIN_TOWN_NAMES + FISHING_TOWN_NAMES, remaining_deliveries, world))
+        all_towns_locations = get_location_names_with_ids(
+            get_delivery_location_names(MOUNTAIN_TOWN_NAMES + SNOWY_PEAKS_NAMES + FISHING_TOWN_NAMES, remaining_deliveries, world))
+    else:
+        snowy_peaks_locations = get_location_names_with_ids(
+            get_delivery_location_names(SNOWY_PEAKS_NAMES, remaining_deliveries, world))
+        fishing_town_locations = get_location_names_with_ids(
+            get_delivery_location_names(FISHING_TOWN_NAMES, remaining_deliveries, world))
+    if world.options.intercity_deliveries == 2 or world.options.intercity_deliveries == 3:
+        mountain_town_locations.update(get_location_names_with_ids(
+            get_delivery_location_names(["Mountain Town"], remaining_deliveries, world)
+        ))
+        snowy_peaks_locations.update(get_location_names_with_ids(
+            get_delivery_location_names(["Mountain Town", "Snowy Peaks"], remaining_deliveries, world)
+        ))
+        fishing_town_locations.update(get_location_names_with_ids(
+            get_delivery_location_names(["Mountain Town", "Fishing Town"], remaining_deliveries, world)
+        ))
+        all_towns_locations.update(get_location_names_with_ids(
+            get_delivery_location_names(["Mountain Town", "Snowy Peaks", "Fishing Town"], remaining_deliveries, world)
+        ))
 
     if world.options.payload_checks:
         payload_locations = get_location_names_with_ids(

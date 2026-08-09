@@ -23,6 +23,32 @@ class PerfectDeliveries(Choice):
     default = option_off
 
 
+class IntercityDeliveries(Choice):
+    """
+    Enable locations for intercity deliveries.
+
+    Off - No locations for intercity deliveries
+    Town - Adds locations for intercity deliveries between each town (i.e. Winton to Easton Delivery)
+    City - Adds locations for intercity deliveries between each city (i.e. Snowy Peaks to Mountain Town Delivery)
+    Both - Adds the locations from both options
+    """
+    display_name = "Intercity Deliveries"
+
+    option_off = 0
+    option_town = 1
+    option_city = 2
+    option_both = 3
+
+    default = option_town
+
+
+class LockTowns(Toggle):
+    """
+    Lock deliveries to and from a town behind an item.
+    """
+    display_name = "Lock Towns"
+
+
 class BlindBags(Toggle):
     """
     Enable locations for buying blind bags.
@@ -97,6 +123,8 @@ class RequireHandheldRadio(DefaultOnToggle):
 class EasyDeliveryCoOptions(PerGameCommonOptions):
     payload_checks: PayloadChecks
     perfect_deliveries: PerfectDeliveries
+    intercity_deliveries: IntercityDeliveries
+    lock_towns: LockTowns
     blind_bags: BlindBags
     snowcats: Snowcats
     radio_towers: RadioTowers
@@ -108,6 +136,6 @@ class EasyDeliveryCoOptions(PerGameCommonOptions):
 option_groups = [
     OptionGroup(
         "Locations",
-        [PayloadChecks, PerfectDeliveries, BlindBags, Snowcats, RadioTowers]
+        [PayloadChecks, PerfectDeliveries, IntercityDeliveries, BlindBags, Snowcats, RadioTowers]
     )
 ]

@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from BaseClasses import CollectionState
-from ..generic.Rules import set_rule
+from rule_builder.options import OptionFilter
+from rule_builder.rules import HasAll, Rule, HasAny, Has, CanReachRegion
+from . import locations
+from .options import BlockedTunnels, CarUpgrades, RequireHandheldRadio
 
 if TYPE_CHECKING:
     from .world import EasyDeliveryCoWorld
@@ -15,23 +17,21 @@ def set_all_rules(world: EasyDeliveryCoWorld) -> None:
     set_completion_condition(world)
 
 
-def has_snow_tires(state: CollectionState, world: "EasyDeliveryCoWorld") -> bool:
+def has_snow_tires(world: "EasyDeliveryCoWorld"):
     if world.options.car_upgrades == 0:
-        if world.options.blocked_tunnels == 0 or world.options.blocked_tunnels == 2:
-            return state.has_all(("Lighter", "Snow Tires"), world.player)
-        elif world.options.blocked_tunnels == 1:
-            return state.has_all(("Lighter", "Snow Tires", "Snowy Peaks Tunnel"), world.player)
+        if world.options.blocked_tunnels == 1:
+            return HasAll("Lighter", "Snow Tires", "Snowy Peaks Tunnel")
         else:
-            return state.can_reach_region("Snowy Peaks early", world.player)
+            return HasAll("Lighter", "Snow Tires")
     else:
-        return state.has("Snow Tires", world.player)
+        return Has("Snow Tires")
 
 
-def can_open_ft_gate(state: CollectionState, world: "EasyDeliveryCoWorld") -> bool:
+def can_open_ft_gate(world: "EasyDeliveryCoWorld"):
     if world.options.radio_towers == 1 or world.options.radio_towers == 3:
-        return state.has("Radio Tower", world.player, 3) and state.has("Bumper Bar", world.player)
+        return Has("Radio Tower", count=3) & Has("Bumper Bar")
     else:
-        return state.can_reach_region("Snowy Peaks", world.player) and state.has("Bumper Bar", world.player)
+        return CanReachRegion("Snowy Peaks") & Has("Bumper Bar")
 
 
 def set_all_entrance_rules(world: EasyDeliveryCoWorld) -> None:
@@ -42,26 +42,26 @@ def set_all_entrance_rules(world: EasyDeliveryCoWorld) -> None:
     fishing_town_entry_to_fishing_town = world.get_entrance("Fishing Town entry to Fishing Town")
     snowy_peaks_to_all_towns = world.get_entrance("Snowy Peaks to All towns")
 
-    set_rule(snowy_peaks_tunnel_to_snowy_peaks_early,
-             lambda state: state.has("Snow Tires", world.player))
-    set_rule(snowy_peaks_early_to_snowy_peaks,
-             lambda state: has_snow_tires(state, world))
-    set_rule(fishing_town_entry_to_fishing_town,
-             lambda state: can_open_ft_gate(state, world))
+    world.set_rule(snowy_peaks_tunnel_to_snowy_peaks_early,
+             Has("Snow Tires"))
+    world.set_rule(snowy_peaks_early_to_snowy_peaks,
+                   has_snow_tires(world))
+    world.set_rule(fishing_town_entry_to_fishing_town,
+                   can_open_ft_gate(world))
 
     if world.options.blocked_tunnels == 0 or world.options.blocked_tunnels == 2:
-        set_rule(mountain_town_to_snowy_peaks_tunnel,
-                 lambda state: state.has("Lighter", world.player))
-        set_rule(mountain_town_to_fishing_town_tunnel,
-                 lambda state: has_snow_tires(state, world))
+        world.set_rule(mountain_town_to_snowy_peaks_tunnel,
+                 Has("Lighter"))
+        world.set_rule(mountain_town_to_fishing_town_tunnel,
+                       has_snow_tires(world))
     elif world.options.blocked_tunnels == 1:
-        set_rule(mountain_town_to_snowy_peaks_tunnel,
-                 lambda state: state.has_all(("Lighter", "Snowy Peaks Tunnel"), world.player))
-        set_rule(mountain_town_to_fishing_town_tunnel,
-                 lambda state: state.has("Fishing Town Tunnel", world.player) and has_snow_tires(state, world))
+        world.set_rule(mountain_town_to_snowy_peaks_tunnel,
+                 HasAll("Lighter", "Snowy Peaks Tunnel"))
+        world.set_rule(mountain_town_to_fishing_town_tunnel,
+                       Has("Fishing Town Tunnel") & has_snow_tires(world))
 
-    set_rule(snowy_peaks_to_all_towns,
-             lambda state: state.can_reach_region("Fishing Town", world.player))
+    world.set_rule(snowy_peaks_to_all_towns,
+             CanReachRegion("Fishing Town"))
 
 
 def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
@@ -71,51 +71,110 @@ def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
         snowcat_ellie = world.get_location("Snowcat Ellie")
         snowcat_fortino = world.get_location("Snowcat Fortino")
         snowcat_foreman = world.get_location("Snowcat Foreman")
-        set_rule(snowcat_tooey,
-                 lambda state: has_snow_tires(state, world))
-        set_rule(snowcat_gus,
-                 lambda state: has_snow_tires(state, world))
-        set_rule(snowcat_ellie,
-                 lambda state: has_snow_tires(state, world))
-        set_rule(snowcat_fortino,
-                 lambda state: has_snow_tires(state, world))
-        set_rule(snowcat_foreman,
-                 lambda state: state.has("Ice Chains", world.player))
+        world.set_rule(snowcat_tooey,
+                       has_snow_tires(world))
+        world.set_rule(snowcat_gus,
+                       has_snow_tires(world))
+        world.set_rule(snowcat_ellie,
+                       has_snow_tires(world))
+        world.set_rule(snowcat_fortino,
+                       has_snow_tires(world))
+        world.set_rule(snowcat_foreman,
+                 Has("Ice Chains"))
 
     if world.options.radio_towers == 1 or world.options.radio_towers == 2:
         radio_easton = world.get_location("Easton Radio Tower")
         radio_ft = world.get_location("Fishing Town Radio Tower")
-        set_rule(radio_easton,
-                 lambda state: (state.has_any(("Lighter", "Snow Tires"), world.player)))
-        set_rule(radio_ft,
-                 lambda state: (state.has_all(("Ice Chains", "Bumper Bar"), world.player)))
+        world.set_rule(radio_easton,
+                 HasAny("Lighter", "Snow Tires"))
+        world.set_rule(radio_ft,
+                 HasAll("Ice Chains", "Bumper Bar"))
+
+    if world.options.lock_towns == 1:
+        if world.options.intercity_deliveries == 2 or world.options.intercity_deliveries == 3:
+            has_snowy_peaks: Rule = HasAny("Winton", "Munton", "Lopton")
+            has_fishing_town: Rule = HasAny("Clifton", "Smalton", "Damton")
+            has_both_cities: Rule = has_snowy_peaks & has_fishing_town
+            if world.options.perfect_deliveries == 0 or world.options.perfect_deliveries == 1:
+                world.set_rule(world.get_location("Mountain Town to Snowy Peaks Delivery"),
+                                has_snowy_peaks)
+                world.set_rule(world.get_location("Snowy Peaks to Snowy Peaks Delivery"),
+                                has_snowy_peaks)
+                world.set_rule(world.get_location("Snowy Peaks to Mountain Town Delivery"),
+                                has_snowy_peaks)
+                world.set_rule(world.get_location("Mountain Town to Fishing Town Delivery"),
+                                has_fishing_town)
+                world.set_rule(world.get_location("Fishing Town to Fishing Town Delivery"),
+                                has_fishing_town)
+                world.set_rule(world.get_location("Fishing Town to Mountain Town Delivery"),
+                                has_fishing_town)
+                world.set_rule(world.get_location("Snowy Peaks to Fishing Town Delivery"),
+                                has_both_cities)
+                world.set_rule(world.get_location("Fishing Town to Snowy Peaks Delivery"),
+                                has_both_cities)
+            if world.options.perfect_deliveries == 1 or world.options.perfect_deliveries == 2:
+                world.set_rule(world.get_location("Mountain Town to Snowy Peaks Perfect Delivery"),
+                                has_snowy_peaks)
+                world.set_rule(world.get_location("Snowy Peaks to Snowy Peaks Perfect Delivery"),
+                                has_snowy_peaks)
+                world.set_rule(world.get_location("Snowy Peaks to Mountain Town Perfect Delivery"),
+                                has_snowy_peaks)
+                world.set_rule(world.get_location("Mountain Town to Fishing Town Perfect Delivery"),
+                                has_fishing_town)
+                world.set_rule(world.get_location("Fishing Town to Fishing Town Perfect Delivery"),
+                                has_fishing_town)
+                world.set_rule(world.get_location("Fishing Town to Mountain Town Perfect Delivery"),
+                                has_fishing_town)
+                world.set_rule(world.get_location("Snowy Peaks to Fishing Town Perfect Delivery"),
+                                has_both_cities)
+                world.set_rule(world.get_location("Fishing Town to Snowy Peaks Perfect Delivery"),
+                                has_both_cities)
+        if world.options.intercity_deliveries == 1 or world.options.intercity_deliveries == 3:
+            for startTown in locations.TOWN_NAME_TO_ID:
+                for endTown in locations.TOWN_NAME_TO_ID:
+                    has_towns: Rule = HasAll(startTown, endTown)
+                    if world.options.perfect_deliveries == 0 or world.options.perfect_deliveries == 1:
+                        world.set_rule(world.get_location(startTown + " to " + endTown + " Delivery"),
+                                 has_towns)
+                    if world.options.perfect_deliveries == 1 or world.options.perfect_deliveries == 2:
+                        world.set_rule(world.get_location(startTown + " to " + endTown + " Perfect Delivery"),
+                                 has_towns)
+        else:
+            for startTown in locations.MOUNTAIN_TOWN_NAMES:
+                for endTown in locations.MOUNTAIN_TOWN_NAMES:
+                    has_towns: Rule = HasAll(startTown, endTown)
+                    if world.options.perfect_deliveries == 0 or world.options.perfect_deliveries == 1:
+                        world.set_rule(world.get_location(startTown + " to " + endTown + " Delivery"),
+                                 has_towns)
+                    if world.options.perfect_deliveries == 1 or world.options.perfect_deliveries == 2:
+                        world.set_rule(world.get_location(startTown + " to " + endTown + " Perfect Delivery"),
+                                 has_towns)
+            for startTown in locations.SNOWY_PEAKS_NAMES:
+                for endTown in locations.SNOWY_PEAKS_NAMES:
+                    has_towns: Rule = HasAll(startTown, endTown)
+                    if world.options.perfect_deliveries == 0 or world.options.perfect_deliveries == 1:
+                        world.set_rule(world.get_location(startTown + " to " + endTown + " Delivery"),
+                                 has_towns)
+                    if world.options.perfect_deliveries == 1 or world.options.perfect_deliveries == 2:
+                        world.set_rule(world.get_location(startTown + " to " + endTown + " Perfect Delivery"),
+                                 has_towns)
+            for startTown in locations.FISHING_TOWN_NAMES:
+                for endTown in locations.FISHING_TOWN_NAMES:
+                    has_towns: Rule = HasAll(startTown, endTown)
+                    if world.options.perfect_deliveries == 0 or world.options.perfect_deliveries == 1:
+                        world.set_rule(world.get_location(startTown + " to " + endTown + " Delivery"),
+                                 has_towns)
+                    if world.options.perfect_deliveries == 1 or world.options.perfect_deliveries == 2:
+                        world.set_rule(world.get_location(startTown + " to " + endTown + " Perfect Delivery"),
+                                 has_towns)
 
 
 # TODO Consider changing to victory event
 def set_completion_condition(world: EasyDeliveryCoWorld) -> None:
-    if world.options.car_upgrades == 0:
-        if world.options.blocked_tunnels == 0:
-            world.multiworld.completion_condition[world.player] = \
-                lambda state: (state.can_reach_region("Fishing Town", world.player)
-                and state.has_all(("Ice Chains", "Bumper Bar"), world.player))
-        else:
-            world.multiworld.completion_condition[world.player] = \
-                lambda state: (state.can_reach_region("Fishing Town", world.player)
-                and state.has_all(("Ice Chains", "Factory Tunnel", "Bumper Bar"), world.player))
-    else:
-        if world.options.require_handheld_radio == 0:
-            if world.options.blocked_tunnels == 0:
-                world.multiworld.completion_condition[world.player] = \
-                    lambda state: state.has_all(("Ice Chains", "Bumper Bar"), world.player)
-            else:
-                world.multiworld.completion_condition[world.player] = \
-                    lambda state: state.has_all(("Ice Chains", "Bumper Bar", "Factory Tunnel"), world.player)
-        else:
-            if world.options.blocked_tunnels == 0:
-                world.multiworld.completion_condition[world.player] = \
-                    lambda state: (state.can_reach_region("Fishing Town", world.player)
-                    and state.has_all(("Ice Chains", "Bumper Bar"), world.player))
-            else:
-                world.multiworld.completion_condition[world.player] = \
-                    lambda state: (state.can_reach_region("Fishing Town", world.player)
-                    and state.has_all(("Ice Chains", "Bumper Bar", "Factory Tunnel"), world.player))
+    tunnels_not_blocked = OptionFilter(BlockedTunnels, False)
+    upgrades_received_directly = OptionFilter(CarUpgrades, 1)
+    handheld_radio_not_required = OptionFilter(RequireHandheldRadio, False)
+
+    world.set_completion_rule(HasAll("Ice Chains", "Bumper Bar")
+                              & ((upgrades_received_directly and handheld_radio_not_required) | CanReachRegion("Fishing Town"))
+                              & (tunnels_not_blocked | Has("Factory Tunnel")))

@@ -150,17 +150,28 @@ def create_all_items(world: EasyDeliveryCoWorld) -> None:
         itempool.append(world.create_item("Radio Tower"))
         itempool.append(world.create_item("Radio Tower"))
     if world.options.lock_towns == 1:
-        itempool.append(world.create_item("Weston"))
-        itempool.append(world.create_item("Easton"))
+        match (math.floor(world.random.random() * 3)):
+            case 0:
+                starting_town = world.create_item("Weston")
+                itempool.append(world.create_item("Upton"))
+                itempool.append(world.create_item("Easton"))
+            case 1:
+                starting_town = world.create_item("Easton")
+                itempool.append(world.create_item("Upton"))
+                itempool.append(world.create_item("Weston"))
+            case _:
+                starting_town = world.create_item("Upton")
+                itempool.append(world.create_item("Weston"))
+                itempool.append(world.create_item("Easton"))
+
+        world.push_precollected(starting_town)
+
         itempool.append(world.create_item("Winton"))
         itempool.append(world.create_item("Munton"))
         itempool.append(world.create_item("Lopton"))
         itempool.append(world.create_item("Clifton"))
         itempool.append(world.create_item("Damton"))
         itempool.append(world.create_item("Smalton"))
-
-        starting_town = world.create_item("Upton")
-        world.push_precollected(starting_town)
 
 
     number_of_items = len(itempool)

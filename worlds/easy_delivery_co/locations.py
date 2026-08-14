@@ -41,13 +41,13 @@ LOCATION_NAME_TO_ID = {
     "Snowcat Cici": 41,
     "Snowcat Fortino": 42,
     "Snowcat Ellie": 43,
-    "Snowcat Fit": 44,
+    "Snowcat Foreman": 44,
     "Snowcat Tooey": 45,
     "Snowcat Reed": 46,
     "Snowcat Fives": 47,
     "Snowcat Sixo": 48,
     "Snowcat Ada": 49,
-    "Snowcat Foreman": 50,
+    "Snowcat Fit": 50,
     "Snowcat Gus": 51,
     "Snowcat Seb": 52,
     "Upton Radio Tower": 60,
@@ -219,10 +219,10 @@ def create_regular_locations(world: EasyDeliveryCoWorld) -> None:
         if world.options.snowcats == 1:
             mountain_town.add_locations(get_location_names_with_ids(["Snowcat Ada"]), EasyDeliveryCoLocation)
         snowcats_sp = get_location_names_with_ids(
-            ["Snowcat Fives", "Snowcat Sixo", "Snowcat Fit", "Snowcat Seb"]
+            ["Snowcat Fives", "Snowcat Sixo", "Snowcat Foreman", "Snowcat Seb"]
         )
         snowcats_ft = get_location_names_with_ids(
-            ["Snowcat Fortino", "Snowcat Ellie", "Snowcat Foreman"]
+            ["Snowcat Fortino", "Snowcat Ellie", "Snowcat Fit"]
         )
         mountain_town.add_locations(snowcats_mt, EasyDeliveryCoLocation)
         snowy_peaks.add_locations(snowcats_sp, EasyDeliveryCoLocation)

@@ -70,7 +70,7 @@ def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
         snowcat_gus = world.get_location("Snowcat Gus")
         snowcat_ellie = world.get_location("Snowcat Ellie")
         snowcat_fortino = world.get_location("Snowcat Fortino")
-        snowcat_foreman = world.get_location("Snowcat Foreman")
+        snowcat_fit = world.get_location("Snowcat Fit")
         world.set_rule(snowcat_tooey,
                        has_snow_tires(world))
         world.set_rule(snowcat_gus,
@@ -79,7 +79,7 @@ def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
                        has_snow_tires(world))
         world.set_rule(snowcat_fortino,
                        has_snow_tires(world))
-        world.set_rule(snowcat_foreman,
+        world.set_rule(snowcat_fit,
                  Has("Ice Chains"))
 
     if world.options.radio_towers == 1 or world.options.radio_towers == 2:

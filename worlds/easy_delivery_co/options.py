@@ -44,7 +44,7 @@ class IntercityDeliveries(Choice):
 
 class LockTowns(Toggle):
     """
-    Lock deliveries to and from a town behind an item.
+    Lock deliveries to and from a town behind an item. Starts with a random town in Mountain Town.
     """
     display_name = "Lock Towns"
 

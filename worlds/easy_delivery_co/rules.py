@@ -90,7 +90,7 @@ def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
         world.set_rule(radio_ft,
                  HasAll("Ice Chains", "Bumper Bar"))
 
-    if world.options.lock_towns == 1:
+    if world.options.lock_towns == 1 and world.options.payload_checks == 1:
         if world.options.intercity_deliveries == 2 or world.options.intercity_deliveries == 3:
             has_snowy_peaks: Rule = HasAny("Winton", "Munton", "Lopton")
             has_fishing_town: Rule = HasAny("Clifton", "Smalton", "Damton")

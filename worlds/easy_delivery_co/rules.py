@@ -90,7 +90,7 @@ def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
         world.set_rule(radio_ft,
                  HasAll("Ice Chains", "Bumper Bar"))
 
-    if world.options.lock_towns == 1 and world.options.payload_checks == 1:
+    if world.options.lock_towns == 1:
         if world.options.intercity_deliveries == 2 or world.options.intercity_deliveries == 3:
             has_snowy_peaks: Rule = HasAny("Winton", "Munton", "Lopton")
             has_fishing_town: Rule = HasAny("Clifton", "Smalton", "Damton")
@@ -168,71 +168,72 @@ def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
                         world.set_rule(world.get_location(startTown + " to " + endTown + " Perfect Delivery"),
                                  has_towns)
 
-        has_easy_flowers: Rule = Has("Upton") \
-                       | (Has("Winton") & CanReachRegion("Snowy Peaks")) \
-                       | (Has("Smalton") & CanReachRegion("Fishing Town"))
-        has_easy_eats: Rule = Has("Upton") \
-                       | (Has("Winton") & CanReachRegion("Snowy Peaks")) \
-                       | (Has("Smalton") & CanReachRegion("Fishing Town"))
-        has_ez_bakery: Rule = Has("Weston") \
-                       | (Has("Lopton") & CanReachRegion("Snowy Peaks")) \
-                       | (Has("Damton") & CanReachRegion("Fishing Town"))
-        has_bar: Rule = Has("Weston") \
-                       | (HasAny("Munton", "Lopton") & CanReachRegion("Snowy Peaks")) \
-                       | (HasAny("Damton","Clifton") & CanReachRegion("Fishing Town"))
-        has_easy_depot: Rule = Has("Weston") \
-                       | (Has("Lopton") & CanReachRegion("Snowy Peaks")) \
-                       | (Has("Damton") & CanReachRegion("Fishing Town"))
-        has_ez_cafe: Rule = Has("Weston") \
-                       | (Has("Lopton") & CanReachRegion("Snowy Peaks")) \
-                       | (Has("Damton") & CanReachRegion("Fishing Town"))
-        has_easy_pizza: Rule = Has("Easton") \
-                       | (Has("Lopton") & CanReachRegion("Snowy Peaks")) \
-                       | (Has("Smalton") & CanReachRegion("Fishing Town"))
-        has_pawn_shop: Rule = Has("Easton") \
-                       | (Has("Munton") & CanReachRegion("Snowy Peaks")) \
-                       | (Has("Clifton") & CanReachRegion("Fishing Town"))
-        has_ez_auto: Rule = Has("Easton") \
-                       | (Has("Munton") & CanReachRegion("Snowy Peaks")) \
-                       | (Has("Clifton") & CanReachRegion("Fishing Town"))
-        has_ez_mart: Rule = Has("Easton") \
-                       | (Has("Munton") & CanReachRegion("Snowy Peaks")) \
-                       | (Has("Clifton") & CanReachRegion("Fishing Town"))
+        if world.options.payload_checks == 1:
+            has_easy_flowers: Rule = Has("Upton") \
+                           | (Has("Winton") & CanReachRegion("Snowy Peaks")) \
+                           | (Has("Smalton") & CanReachRegion("Fishing Town"))
+            has_easy_eats: Rule = Has("Upton") \
+                           | (Has("Winton") & CanReachRegion("Snowy Peaks")) \
+                           | (Has("Smalton") & CanReachRegion("Fishing Town"))
+            has_ez_bakery: Rule = Has("Weston") \
+                           | (Has("Lopton") & CanReachRegion("Snowy Peaks")) \
+                           | (Has("Damton") & CanReachRegion("Fishing Town"))
+            has_bar: Rule = Has("Weston") \
+                           | (HasAny("Munton", "Lopton") & CanReachRegion("Snowy Peaks")) \
+                           | (HasAny("Damton","Clifton") & CanReachRegion("Fishing Town"))
+            has_easy_depot: Rule = Has("Weston") \
+                           | (Has("Lopton") & CanReachRegion("Snowy Peaks")) \
+                           | (Has("Damton") & CanReachRegion("Fishing Town"))
+            has_ez_cafe: Rule = Has("Weston") \
+                           | (Has("Lopton") & CanReachRegion("Snowy Peaks")) \
+                           | (Has("Damton") & CanReachRegion("Fishing Town"))
+            has_easy_pizza: Rule = Has("Easton") \
+                           | (Has("Lopton") & CanReachRegion("Snowy Peaks")) \
+                           | (Has("Smalton") & CanReachRegion("Fishing Town"))
+            has_pawn_shop: Rule = Has("Easton") \
+                           | (Has("Munton") & CanReachRegion("Snowy Peaks")) \
+                           | (Has("Clifton") & CanReachRegion("Fishing Town"))
+            has_ez_auto: Rule = Has("Easton") \
+                           | (Has("Munton") & CanReachRegion("Snowy Peaks")) \
+                           | (Has("Clifton") & CanReachRegion("Fishing Town"))
+            has_ez_mart: Rule = Has("Easton") \
+                           | (Has("Munton") & CanReachRegion("Snowy Peaks")) \
+                           | (Has("Clifton") & CanReachRegion("Fishing Town"))
 
-        world.set_rule(world.get_location("Deliver Big Box"),
-                       has_ez_bakery | has_easy_depot | has_ez_cafe | has_pawn_shop | has_ez_auto | has_ez_mart)
-        world.set_rule(world.get_location("Deliver Big Box Stack"),
-                       has_ez_bakery | has_easy_depot | has_ez_cafe | has_ez_auto | has_ez_mart)
-        world.set_rule(world.get_location("Deliver Box Bunch"),
-                       has_easy_eats | has_ez_bakery | has_easy_depot | has_ez_cafe | has_pawn_shop | has_ez_auto | has_ez_mart)
-        world.set_rule(world.get_location("Deliver Box Stack"),
-                       has_easy_eats | has_ez_bakery | has_easy_depot | has_ez_cafe | has_pawn_shop | has_ez_auto | has_ez_mart)
-        world.set_rule(world.get_location("Deliver Crate"),
-                       has_easy_depot | has_pawn_shop | has_ez_mart)
-        world.set_rule(world.get_location("Deliver Crate of Drinks"),
-                       has_easy_eats | has_bar | has_easy_depot | has_ez_cafe | has_ez_mart)
-        world.set_rule(world.get_location("Deliver Crate Stack"),
-                       has_easy_depot | has_pawn_shop | has_ez_mart)
-        world.set_rule(world.get_location("Deliver Lots of Crates of Drinks"),
-                       has_bar)
-        world.set_rule(world.get_location("Deliver Pizza Stack"),
-                       has_easy_eats | has_easy_pizza)
-        world.set_rule(world.get_location("Deliver Pizza Stack Mega"),
-                       has_easy_eats | has_easy_pizza)
-        world.set_rule(world.get_location("Deliver Plant Pot"),
-                       has_easy_flowers | has_pawn_shop)
-        world.set_rule(world.get_location("Deliver Plant Pot Bunch"),
-                       has_easy_flowers | has_pawn_shop)
-        world.set_rule(world.get_location("Deliver Plant Pot Stack"),
-                       has_easy_flowers | has_pawn_shop)
-        world.set_rule(world.get_location("Deliver Plant Pot Wide"),
-                       has_easy_flowers | has_pawn_shop)
-        world.set_rule(world.get_location("Deliver Sack"),
-                       has_easy_flowers | has_ez_bakery | has_easy_depot | has_ez_cafe | has_ez_mart)
-        world.set_rule(world.get_location("Deliver Sack Stack"),
-                       has_easy_flowers | has_ez_bakery | has_easy_depot | has_ez_cafe | has_ez_mart)
-        world.set_rule(world.get_location("Deliver Drink"),
-                       has_bar)
+            world.set_rule(world.get_location("Deliver Big Box"),
+                           has_ez_bakery | has_easy_depot | has_ez_cafe | has_pawn_shop | has_ez_auto | has_ez_mart)
+            world.set_rule(world.get_location("Deliver Big Box Stack"),
+                           has_ez_bakery | has_easy_depot | has_ez_cafe | has_ez_auto | has_ez_mart)
+            world.set_rule(world.get_location("Deliver Box Bunch"),
+                           has_easy_eats | has_ez_bakery | has_easy_depot | has_ez_cafe | has_pawn_shop | has_ez_auto | has_ez_mart)
+            world.set_rule(world.get_location("Deliver Box Stack"),
+                           has_easy_eats | has_ez_bakery | has_easy_depot | has_ez_cafe | has_pawn_shop | has_ez_auto | has_ez_mart)
+            world.set_rule(world.get_location("Deliver Crate"),
+                           has_easy_depot | has_pawn_shop | has_ez_mart)
+            world.set_rule(world.get_location("Deliver Crate of Drinks"),
+                           has_easy_eats | has_bar | has_easy_depot | has_ez_cafe | has_ez_mart)
+            world.set_rule(world.get_location("Deliver Crate Stack"),
+                           has_easy_depot | has_pawn_shop | has_ez_mart)
+            world.set_rule(world.get_location("Deliver Lots of Crates of Drinks"),
+                           has_bar)
+            world.set_rule(world.get_location("Deliver Pizza Stack"),
+                           has_easy_eats | has_easy_pizza)
+            world.set_rule(world.get_location("Deliver Pizza Stack Mega"),
+                           has_easy_eats | has_easy_pizza)
+            world.set_rule(world.get_location("Deliver Plant Pot"),
+                           has_easy_flowers | has_pawn_shop)
+            world.set_rule(world.get_location("Deliver Plant Pot Bunch"),
+                           has_easy_flowers | has_pawn_shop)
+            world.set_rule(world.get_location("Deliver Plant Pot Stack"),
+                           has_easy_flowers | has_pawn_shop)
+            world.set_rule(world.get_location("Deliver Plant Pot Wide"),
+                           has_easy_flowers | has_pawn_shop)
+            world.set_rule(world.get_location("Deliver Sack"),
+                           has_easy_flowers | has_ez_bakery | has_easy_depot | has_ez_cafe | has_ez_mart)
+            world.set_rule(world.get_location("Deliver Sack Stack"),
+                           has_easy_flowers | has_ez_bakery | has_easy_depot | has_ez_cafe | has_ez_mart)
+            world.set_rule(world.get_location("Deliver Drink"),
+                           has_bar)
 
 
 # TODO Consider changing to victory event

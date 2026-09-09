@@ -59,6 +59,8 @@ class BlindBags(Toggle):
 class Snowcats(Choice):
     """
     Enable locations for snowcats.
+
+    Exclude Easton - Exclude the snowcat in Easton
     """
     display_name = "Snowcats"
 
@@ -102,6 +104,8 @@ class CarUpgrades(Choice):
 class BlockedTunnels(Choice):
     """
     Require an item to travel through a tunnel.
+
+    Factory Only - Only require an item for the tunnel to Factory
     """
     display_name = "Blocked Tunnels"
 

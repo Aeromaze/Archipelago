@@ -32,6 +32,7 @@ ITEM_NAME_TO_ID = {
     "Snow Tires": 2,
     "Bumper Bar": 3,
     "Ice Chains": 4,
+    "Progressive Car Upgrade": 5,
     "Money": 10,
     "Snowy Peaks Tunnel": 11,
     "Fishing Town Tunnel": 12,
@@ -71,6 +72,7 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Snow Tires": ItemClassification.progression,
     "Bumper Bar": ItemClassification.progression,
     "Ice Chains": ItemClassification.progression,
+    "Progressive Car Upgrade": ItemClassification.progression,
     "Money": ItemClassification.filler,
     "Snowy Peaks Tunnel": ItemClassification.progression,
     "Fishing Town Tunnel": ItemClassification.progression,
@@ -130,13 +132,19 @@ def create_item_with_correct_classification(world: EasyDeliveryCoWorld, name: st
 
 def create_all_items(world: EasyDeliveryCoWorld) -> None:
     itempool: list[Item] = [
-        world.create_item("Snow Tires"),
-        world.create_item("Bumper Bar"),
-        world.create_item("Ice Chains"),
-        world.create_item("Lighter"),
-        # world.create_item("Fishing Rod"),
-        # world.create_item("Cooking Pot"),
+        world.create_item("Fishing Rod"),
+        world.create_item("Cooking Pot"),
+        world.create_item("Lighter")
     ]
+
+    if world.options.progressive_car_upgrades == 0:
+        itempool.append(world.create_item("Snow Tires"))
+        itempool.append(world.create_item("Bumper Bar"))
+        itempool.append(world.create_item("Ice Chains"))
+    else:
+        itempool.append(world.create_item("Progressive Car Upgrade"))
+        itempool.append(world.create_item("Progressive Car Upgrade"))
+        itempool.append(world.create_item("Progressive Car Upgrade"))
 
     if world.options.blocked_tunnels == 1:
         itempool.append(world.create_item("Snowy Peaks Tunnel"))

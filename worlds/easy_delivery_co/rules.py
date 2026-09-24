@@ -17,21 +17,42 @@ def set_all_rules(world: EasyDeliveryCoWorld) -> None:
     set_completion_condition(world)
 
 
-def has_snow_tires(world: "EasyDeliveryCoWorld"):
+def can_use_snow_tires(world: "EasyDeliveryCoWorld"):
     if world.options.car_upgrades == 0:
         if world.options.blocked_tunnels == 1:
-            return HasAll("Lighter", "Snow Tires", "Snowy Peaks Tunnel")
+            return HasAll("Lighter", "Snowy Peaks Tunnel") & has_snow_tires(world)
         else:
-            return HasAll("Lighter", "Snow Tires")
+            return HasAll("Lighter") & has_snow_tires(world)
     else:
+        return has_snow_tires(world)
+
+
+def has_snow_tires(world: "EasyDeliveryCoWorld"):
+    if world.options.progressive_car_upgrades == 0:
         return Has("Snow Tires")
+    else:
+        return Has("Progressive Car Upgrade")
+
+
+def has_bumper_bar(world: "EasyDeliveryCoWorld"):
+    if world.options.progressive_car_upgrades == 0:
+        return Has("Bumper Bar")
+    else:
+        return Has("Progressive Car Upgrade", count=2)
+
+
+def has_ice_chains(world: "EasyDeliveryCoWorld"):
+    if world.options.progressive_car_upgrades == 0:
+        return Has("Ice Chains")
+    else:
+        return Has("Progressive Car Upgrade", count=3)
 
 
 def can_open_ft_gate(world: "EasyDeliveryCoWorld"):
     if world.options.radio_towers == 1 or world.options.radio_towers == 3:
-        return Has("Radio Tower", count=3) & Has("Bumper Bar")
+        return Has("Radio Tower", count=3) & has_bumper_bar(world)
     else:
-        return CanReachRegion("Snowy Peaks") & Has("Bumper Bar")
+        return CanReachRegion("Snowy Peaks") & has_bumper_bar(world)
 
 
 def set_all_entrance_rules(world: EasyDeliveryCoWorld) -> None:
@@ -43,9 +64,9 @@ def set_all_entrance_rules(world: EasyDeliveryCoWorld) -> None:
     snowy_peaks_to_all_towns = world.get_entrance("Snowy Peaks to All towns")
 
     world.set_rule(snowy_peaks_tunnel_to_snowy_peaks_early,
-             Has("Snow Tires"))
+             has_snow_tires(world))
     world.set_rule(snowy_peaks_early_to_snowy_peaks,
-                   has_snow_tires(world))
+                   can_use_snow_tires(world))
     world.set_rule(fishing_town_entry_to_fishing_town,
                    can_open_ft_gate(world))
 
@@ -53,12 +74,12 @@ def set_all_entrance_rules(world: EasyDeliveryCoWorld) -> None:
         world.set_rule(mountain_town_to_snowy_peaks_tunnel,
                  Has("Lighter"))
         world.set_rule(mountain_town_to_fishing_town_tunnel,
-                       has_snow_tires(world))
+                       can_use_snow_tires(world))
     elif world.options.blocked_tunnels == 1:
         world.set_rule(mountain_town_to_snowy_peaks_tunnel,
                  HasAll("Lighter", "Snowy Peaks Tunnel"))
         world.set_rule(mountain_town_to_fishing_town_tunnel,
-                       Has("Fishing Town Tunnel") & has_snow_tires(world))
+                       Has("Fishing Town Tunnel") & can_use_snow_tires(world))
 
     world.set_rule(snowy_peaks_to_all_towns,
              CanReachRegion("Fishing Town"))
@@ -72,23 +93,23 @@ def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
         snowcat_fortino = world.get_location("Snowcat Fortino")
         snowcat_fit = world.get_location("Snowcat Fit")
         world.set_rule(snowcat_tooey,
-                       has_snow_tires(world))
+                       can_use_snow_tires(world))
         world.set_rule(snowcat_gus,
-                       has_snow_tires(world))
+                       can_use_snow_tires(world))
         world.set_rule(snowcat_ellie,
-                       has_snow_tires(world))
+                       can_use_snow_tires(world))
         world.set_rule(snowcat_fortino,
-                       has_snow_tires(world))
+                       can_use_snow_tires(world))
         world.set_rule(snowcat_fit,
-                 Has("Ice Chains"))
+                 has_ice_chains(world))
 
     if world.options.radio_towers == 1 or world.options.radio_towers == 2:
         radio_easton = world.get_location("Easton Radio Tower")
         radio_ft = world.get_location("Fishing Town Radio Tower")
         world.set_rule(radio_easton,
-                 HasAny("Lighter", "Snow Tires"))
+                 Has("Lighter") | has_snow_tires(world))
         world.set_rule(radio_ft,
-                 HasAll("Ice Chains", "Bumper Bar"))
+                 has_bumper_bar(world) & has_ice_chains(world))
 
     if world.options.lock_towns == 1:
         if world.options.intercity_deliveries == 2 or world.options.intercity_deliveries == 3:
@@ -242,6 +263,6 @@ def set_completion_condition(world: EasyDeliveryCoWorld) -> None:
     upgrades_received_directly = OptionFilter(CarUpgrades, 1)
     handheld_radio_not_required = OptionFilter(RequireHandheldRadio, False)
 
-    world.set_completion_rule(HasAll("Ice Chains", "Bumper Bar")
+    world.set_completion_rule(has_bumper_bar(world) & has_ice_chains(world)
                               & ((upgrades_received_directly and handheld_radio_not_required) | CanReachRegion("Fishing Town"))
                               & (tunnels_not_blocked | Has("Factory Tunnel")))

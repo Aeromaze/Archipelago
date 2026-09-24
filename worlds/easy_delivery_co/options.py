@@ -101,6 +101,13 @@ class CarUpgrades(Choice):
     default = option_require_buying
 
 
+class ProgressiveCarUpgrades(Toggle):
+    """
+    Receive car upgrades in order (Snow Tires, Bumper Bar, Ice Chains)
+    """
+    display_name = "Progressive Car Upgrades"
+
+
 class BlockedTunnels(Choice):
     """
     Require an item to travel through a tunnel.
@@ -133,6 +140,7 @@ class EasyDeliveryCoOptions(PerGameCommonOptions):
     snowcats: Snowcats
     radio_towers: RadioTowers
     car_upgrades: CarUpgrades
+    progressive_car_upgrades: ProgressiveCarUpgrades
     blocked_tunnels: BlockedTunnels
     require_handheld_radio: RequireHandheldRadio
 

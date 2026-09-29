@@ -15,6 +15,7 @@ class EasyDeliveryCoWorld(World):
 
     options_dataclass = options.EasyDeliveryCoOptions
     options: options.EasyDeliveryCoOptions
+    item_name_groups = items.item_name_groups
 
     location_name_to_id = locations.LOCATION_NAME_TO_ID
     item_name_to_id = items.ITEM_NAME_TO_ID

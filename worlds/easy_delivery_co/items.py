@@ -191,3 +191,10 @@ def create_all_items(world: EasyDeliveryCoWorld) -> None:
     itempool += [world.create_filler() for _ in range(needed_number_of_filler_items)]
 
     world.multiworld.itempool += itempool
+
+
+item_name_groups: dict[str, set[str]] = {
+    "Town": {"Upton", "Weston", "Easton", "Winton", "Munton", "Lopton", "Clifton", "Damton", "Smalton"},
+    "Car Upgrade": {"Snow Tires", "Bumper Bar", "Ice Chains", "Progressive Car Upgrade"},
+    "Tunnel": {"Snowy Peaks Tunnel", "Fishing Town Tunnel", "Factory Tunnel"}
+}

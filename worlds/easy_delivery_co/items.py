@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from .world import EasyDeliveryCoWorld
 
 ITEM_NAME_TO_ID = {
+    # Inventory Items
     "Energy Drink": 100,
     "Empty Can": 101,
     "Lantern": 102,
@@ -28,16 +29,20 @@ ITEM_NAME_TO_ID = {
     "Duct Tape": 115,
     "Recovery Disc": 116,
     "Handheld Radio": 117,
+    # Traps
+    "Ice Trap": 130,
+    "Shrink Trap": 131,
+    # Car Upgrades
     "Map": 1,
     "Snow Tires": 2,
     "Bumper Bar": 3,
     "Ice Chains": 4,
     "Progressive Car Upgrade": 5,
-    "Money": 10,
+    # Tunnels
     "Snowy Peaks Tunnel": 11,
     "Fishing Town Tunnel": 12,
     "Factory Tunnel": 13,
-    "Radio Tower": 20,
+    # Towns
     "Upton": 30,
     "Weston": 31,
     "Easton": 32,
@@ -47,6 +52,9 @@ ITEM_NAME_TO_ID = {
     "Clifton": 36,
     "Damton": 37,
     "Smalton": 38,
+    # Other
+    "Money": 10,
+    "Radio Tower": 20,
 }
 
 DEFAULT_ITEM_CLASSIFICATIONS = {
@@ -68,16 +76,16 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Duct Tape": ItemClassification.filler,
     "Recovery Disc": ItemClassification.progression,
     "Handheld Radio": ItemClassification.useful,
+    "Ice Trap": ItemClassification.trap,
+    "Shrink Trap": ItemClassification.trap,
     "Map": ItemClassification.progression,
     "Snow Tires": ItemClassification.progression,
     "Bumper Bar": ItemClassification.progression,
     "Ice Chains": ItemClassification.progression,
     "Progressive Car Upgrade": ItemClassification.progression,
-    "Money": ItemClassification.filler,
     "Snowy Peaks Tunnel": ItemClassification.progression,
     "Fishing Town Tunnel": ItemClassification.progression,
     "Factory Tunnel": ItemClassification.progression,
-    "Radio Tower": ItemClassification.progression,
     "Upton": ItemClassification.progression,
     "Weston": ItemClassification.progression,
     "Easton": ItemClassification.progression,
@@ -87,6 +95,8 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Clifton": ItemClassification.progression,
     "Damton": ItemClassification.progression,
     "Smalton": ItemClassification.progression,
+    "Money": ItemClassification.filler,
+    "Radio Tower": ItemClassification.progression,
 }
 
 
@@ -95,7 +105,7 @@ class EasyDeliveryCoItem(Item):
 
 
 def get_random_filler_item_name(world: EasyDeliveryCoWorld) -> str:
-    match (math.floor(world.random.random() * 35)):
+    match (world.random.randint(0, 35)):
         case 0:
             return "Energy Drink"
         # case 1:
@@ -122,6 +132,13 @@ def get_random_filler_item_name(world: EasyDeliveryCoWorld) -> str:
             return "Money"
         case _:
             return "Energy Drink"
+
+def get_random_trap_name(world: EasyDeliveryCoWorld) -> str:
+    match (world.random.randint(0, 1)):
+        case 0:
+            return "Ice Trap"
+        case _:
+            return "Shrink Trap"
 
 
 def create_item_with_correct_classification(world: EasyDeliveryCoWorld, name: str) -> EasyDeliveryCoItem:
@@ -187,6 +204,11 @@ def create_all_items(world: EasyDeliveryCoWorld) -> None:
     number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))
 
     needed_number_of_filler_items = number_of_unfilled_locations - number_of_items
+
+    if world.options.trap_percentage > 0:
+        number_of_traps = int(needed_number_of_filler_items * world.options.trap_percentage / 100)
+        needed_number_of_filler_items -= number_of_traps
+        itempool += [world.create_item(get_random_trap_name(world)) for _ in range(number_of_traps)]
 
     itempool += [world.create_filler() for _ in range(needed_number_of_filler_items)]
 

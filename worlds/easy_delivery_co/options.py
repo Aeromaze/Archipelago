@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import Toggle, PerGameCommonOptions, OptionGroup, Choice, DefaultOnToggle
+from Options import Toggle, PerGameCommonOptions, OptionGroup, Choice, DefaultOnToggle, Range
 
 
 class PayloadChecks(Toggle):
@@ -130,6 +130,24 @@ class RequireHandheldRadio(DefaultOnToggle):
     display_name = "Require Handheld Radio"
 
 
+class TrapPercentage(Range):
+    """
+    Replace a percentage of filler with traps.
+    """
+    display_name = "Trap Percentage"
+
+    range_start = 0
+    range_end = 100
+
+    default = 0
+
+
+class RandomizeTrailColor(Toggle):
+    """
+    Randomize the color of the snowtrail when driving.
+    """
+    display_name = "Randomize Trail Color"
+
 @dataclass
 class EasyDeliveryCoOptions(PerGameCommonOptions):
     payload_checks: PayloadChecks
@@ -143,6 +161,8 @@ class EasyDeliveryCoOptions(PerGameCommonOptions):
     progressive_car_upgrades: ProgressiveCarUpgrades
     blocked_tunnels: BlockedTunnels
     require_handheld_radio: RequireHandheldRadio
+    trap_percentage: TrapPercentage
+    randomize_trail_color: RandomizeTrailColor
 
 
 option_groups = [

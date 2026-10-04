@@ -3,6 +3,7 @@ from typing import Mapping, Any, Optional
 from Options import Option
 from worlds.AutoWorld import World
 from . import items, locations, options, regions, rules, web_world
+from .options import resolve_options
 
 
 class EasyDeliveryCoWorld(World):
@@ -22,6 +23,8 @@ class EasyDeliveryCoWorld(World):
     item_name_to_id = items.ITEM_NAME_TO_ID
 
     origin_region_name = "Mountain Town"
+
+    randomize_trail_color: int
 
     # Universal Tracker
     ut_can_gen_without_yaml = True
@@ -48,18 +51,27 @@ class EasyDeliveryCoWorld(World):
         if re_gen_passthrough and self.game in re_gen_passthrough:
             slot_data: dict[str, Any] = re_gen_passthrough[self.game]
 
-            slot_options: dict[str, Any] = slot_data.get("options", {})
-            for key, value in slot_options.items():
+            for key, value in slot_data.items():
                 opt: Optional[Option] = getattr(self.options, key, None)
                 if opt is not None:
                     setattr(self.options, key, opt.from_any(value))
 
+        resolve_options(self)
+
     def fill_slot_data(self) -> Mapping[str, Any]:
-        slot_data = {
-            "options": self.options.as_dict("payload_checks", "perfect_deliveries",
-                       "intercity_deliveries", "lock_towns", "blind_bags", "snowcats", "blocked_tunnels",
-                       "require_handheld_radio", "radio_towers", "car_upgrades", "progressive_car_upgrades",
-                       "randomize_trail_color"),
+        slot_data: dict[str, Any] = {
+            "payload_checks": self.options.payload_checks.value,
+            "perfect_deliveries": self.options.perfect_deliveries.value,
+            "intercity_deliveries": self.options.intercity_deliveries.value,
+            "lock_towns": self.options.lock_towns.value,
+            "blind_bags": self.options.blind_bags.value,
+            "snowcats": self.options.snowcats.value,
+            "blocked_tunnels": self.options.blocked_tunnels.value,
+            "require_handheld_radio": self.options.require_handheld_radio.value,
+            "radio_towers": self.options.radio_towers.value,
+            "car_upgrades": self.options.car_upgrades.value,
+            "progressive_car_upgrades": self.options.progressive_car_upgrades.value,
+            "randomize_trail_color": self.randomize_trail_color,
         }
         return slot_data
 

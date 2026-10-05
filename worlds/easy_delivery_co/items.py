@@ -149,8 +149,8 @@ def create_item_with_correct_classification(world: EasyDeliveryCoWorld, name: st
 
 def create_all_items(world: EasyDeliveryCoWorld) -> None:
     itempool: list[Item] = [
-        world.create_item("Fishing Rod"),
-        world.create_item("Cooking Pot"),
+        # world.create_item("Fishing Rod"),
+        # world.create_item("Cooking Pot"),
         world.create_item("Lighter")
     ]
 
@@ -190,6 +190,11 @@ def create_all_items(world: EasyDeliveryCoWorld) -> None:
                 itempool.append(world.create_item("Easton"))
 
         world.push_precollected(starting_town)
+
+        if world.multiworld.players == 1:
+            early_town = ["Upton", "Weston", "Easton"]
+            early_town.remove(starting_town.name)
+            world.multiworld.early_items[world.player][early_town.pop(world.random.randint(0, 1))] = 1
 
         itempool.append(world.create_item("Winton"))
         itempool.append(world.create_item("Munton"))

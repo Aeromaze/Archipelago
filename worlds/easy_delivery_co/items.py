@@ -32,6 +32,8 @@ ITEM_NAME_TO_ID = {
     # Traps
     "Ice Trap": 130,
     "Shrink Trap": 131,
+    "Frozen Steering Wheel Trap": 132,
+    "Forced Acceleration Trap": 133,
     # Car Upgrades
     "Map": 1,
     "Snow Tires": 2,
@@ -76,16 +78,22 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Duct Tape": ItemClassification.filler,
     "Recovery Disc": ItemClassification.progression,
     "Handheld Radio": ItemClassification.useful,
+
     "Ice Trap": ItemClassification.trap,
     "Shrink Trap": ItemClassification.trap,
+    "Frozen Steering Wheel Trap": ItemClassification.trap,
+    "Forced Acceleration Trap": ItemClassification.trap,
+
     "Map": ItemClassification.progression,
     "Snow Tires": ItemClassification.progression,
     "Bumper Bar": ItemClassification.progression,
     "Ice Chains": ItemClassification.progression,
     "Progressive Car Upgrade": ItemClassification.progression,
+
     "Snowy Peaks Tunnel": ItemClassification.progression,
     "Fishing Town Tunnel": ItemClassification.progression,
     "Factory Tunnel": ItemClassification.progression,
+
     "Upton": ItemClassification.progression,
     "Weston": ItemClassification.progression,
     "Easton": ItemClassification.progression,
@@ -95,6 +103,7 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Clifton": ItemClassification.progression,
     "Damton": ItemClassification.progression,
     "Smalton": ItemClassification.progression,
+
     "Money": ItemClassification.filler,
     "Radio Tower": ItemClassification.progression,
 }
@@ -134,11 +143,15 @@ def get_random_filler_item_name(world: EasyDeliveryCoWorld) -> str:
             return "Energy Drink"
 
 def get_random_trap_name(world: EasyDeliveryCoWorld) -> str:
-    match (world.random.randint(0, 1)):
-        case 0:
+    match (world.random.randint(1, 4)):
+        case 1:
             return "Ice Trap"
-        case _:
+        case 2:
             return "Shrink Trap"
+        case 3:
+            return "Frozen Steering Wheel Trap"
+        case _:
+            return "Forced Acceleration Trap"
 
 
 def create_item_with_correct_classification(world: EasyDeliveryCoWorld, name: str) -> EasyDeliveryCoItem:

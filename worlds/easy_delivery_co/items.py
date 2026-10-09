@@ -117,8 +117,11 @@ def get_random_filler_item_name(world: EasyDeliveryCoWorld) -> str:
     match (world.random.randint(0, 35)):
         case 0:
             return "Energy Drink"
-        # case 1:
-        #     return "Empty Can"
+        case 1:
+            if world.options.trash_bins:
+                return "Empty Can"
+            else:
+                return "Energy Drink"
         case 2 | 3:
             return "Firewood"
         case 4:

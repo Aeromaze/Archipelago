@@ -88,6 +88,20 @@ class RadioTowers(Choice):
     default = option_off
 
 
+class VendingMachines(Toggle):
+    """
+    Enable locations for using vending machines.
+    """
+    display_name = "Vending Machines"
+
+
+class TrashBins(Toggle):
+    """
+    Enable locations for using trash bins.
+    """
+    display_name = "Trash Bins"
+
+
 class CarUpgrades(Choice):
     """
     How car upgrades should work when received.
@@ -205,6 +219,8 @@ class EasyDeliveryCoOptions(PerGameCommonOptions):
     blind_bags: BlindBags
     snowcats: Snowcats
     radio_towers: RadioTowers
+    vending_machines: VendingMachines
+    trash_bins: TrashBins
     car_upgrades: CarUpgrades
     progressive_car_upgrades: ProgressiveCarUpgrades
     blocked_tunnels: BlockedTunnels
@@ -216,6 +232,7 @@ class EasyDeliveryCoOptions(PerGameCommonOptions):
 option_groups = [
     OptionGroup(
         "Locations",
-        [PayloadChecks, PerfectDeliveries, IntercityDeliveries, BlindBags, Snowcats, RadioTowers]
+        [PayloadChecks, PerfectDeliveries, IntercityDeliveries, BlindBags, Snowcats, RadioTowers, VendingMachines,
+         TrashBins]
     )
 ]

@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from .world import EasyDeliveryCoWorld
 
 LOCATION_NAME_TO_ID = {
+    # Payload Deliveries
     "Deliver Big Box": 1,
     "Deliver Big Box Stack": 2,
     "Deliver Box Bunch": 3,
@@ -25,6 +26,7 @@ LOCATION_NAME_TO_ID = {
     "Deliver Sack": 15,
     "Deliver Sack Stack": 16,
     "Deliver Drink": 17,
+    # Blind Bags
     "Blind Bag 1 Mountain Town": 20,
     "Blind Bag 2 Mountain Town": 21,
     "Blind Bag 3 Mountain Town": 22,
@@ -37,6 +39,7 @@ LOCATION_NAME_TO_ID = {
     "Blind Bag 2 Fishing Town": 29,
     "Blind Bag 3 Fishing Town": 30,
     "Blind Bag 4 Fishing Town": 31,
+    # Snowcats
     "Snowcat Theo": 40,
     "Snowcat Cici": 41,
     "Snowcat Fortino": 42,
@@ -50,10 +53,67 @@ LOCATION_NAME_TO_ID = {
     "Snowcat Fit": 50,
     "Snowcat Gus": 51,
     "Snowcat Seb": 52,
+    # Radio Towers
     "Upton Radio Tower": 60,
     "Easton Radio Tower": 61,
     "Snowy Peaks Radio Tower": 62,
     "Fishing Town Radio Tower": 63,
+    # Vending Machines
+    "Vending Machine in Upton": 100,
+    "Vending Machine in Weston": 101,
+    "Vending Machine in Easton": 102,
+    "Vending Machine in Winton": 103,
+    "Vending Machine in Lower Munton": 104,
+    "Vending Machine in Upper Munton": 105,
+    "Vending Machine in Lopton": 106,
+    "Vending Machine in Clifton": 107,
+    "Vending Machine in Upper Damton": 108,
+    "Vending Machine in Lower Damton": 109,
+    "Vending Machine in Smalton (Left)": 110,
+    "Vending Machine in Smalton (Right)": 111,
+    # Bins
+    "Upton Red Bin Easy Flowers": 121,
+    "Upton Blue Bin Easy Flowers": 122,
+    "Upton Blue Bin Between Easy Flowers and Easy Eats": 123,
+    "Upton Blue Bin Easy Eats": 124,
+    "Upton Red Bin Easy Eats": 125,
+    "Upton Red Bin Town Edge": 126,
+    "Weston Blue Bin Entry": 127,
+    "Weston Red Bin Entry": 128,
+    "Weston Blue Bin Across EZ Bakery": 129,
+    "Weston Red Bin EZ Bakery": 130,
+    "Weston Blue Bin EZ Bakery": 131,
+    "Weston Red Bin Bar Upper": 132,
+    "Weston Blue Bin Easy Depot": 133,
+    "Weston Blue Bin Bar Lower": 134,
+    "Weston Red Bin EZ Cafe": 135,
+    "Easton Blue Bin EZ Mart": 136,
+    "Easton Red Bin Fuel": 137,
+    "Easton Blue Bin Fuel": 138,
+    "Easton Blue Bin Easy Pizza": 139,
+    "Easton Red Bin Easy Pizza": 140,
+    "Winton Blue Bin Easy Flowers": 141,
+    "Winton Red Bin Easy Eats": 142,
+    "Winton Blue Bin Fuel": 143,
+    "Winton Red Bin Fuel": 144,
+    "Munton Red Bin Pawn Shop": 145,
+    "Munton Red Bin EZ Mart": 146,
+    "Munton Blue Bin EZ Mart": 147,
+    "Lopton Red Bin Bar": 148,
+    "Lopton Red Bin Easy Depot": 149,
+    "Lopton Blue Bin Easy Depot": 150,
+    "Clifton Red Bin Bar": 151,
+    "Clifton Blue Bin Bar": 152,
+    "Clifton Blue Bin EZ Mart": 153,
+    "Clifton Red Bin EZ Mart": 154,
+    "Damton Red Bin Bar": 155,
+    "Damton Blue Bin Bar": 156,
+    "Damton Red Bin Easy Depot": 157,
+    "Damton Blue Bin Easy Depot": 158,
+    "Smalton Blue Bin Easy Pizza": 159,
+    "Smalton Red Bin Easy Pizza": 160,
+    "Smalton Red Bin Easy Eats": 161,
+    "Smalton Blue Bin Easy Eats": 162,
 }
 
 TOWN_NAME_TO_ID = {
@@ -143,6 +203,16 @@ def create_regular_locations(world: EasyDeliveryCoWorld) -> None:
     fishing_town_entry = world.get_region("Fishing Town entry")
     fishing_town = world.get_region("Fishing Town")
     all_towns = world.get_region("All towns")
+    upton = world.get_region("Upton")
+    weston = world.get_region("Weston")
+    easton = world.get_region("Easton")
+    winton = world.get_region("Winton")
+    munton_early = world.get_region("Munton early")
+    munton = world.get_region("Munton")
+    lopton = world.get_region("Lopton")
+    clifton = world.get_region("Clifton")
+    damton = world.get_region("Damton")
+    smalton = world.get_region("Smalton")
 
     remaining_deliveries = LOCATION_NAME_TO_ID.copy()
     all_towns_locations = {}
@@ -236,6 +306,95 @@ def create_regular_locations(world: EasyDeliveryCoWorld) -> None:
         mountain_town.add_locations(radio_mt, EasyDeliveryCoLocation)
         snowy_peaks.add_locations(get_location_names_with_ids(["Snowy Peaks Radio Tower"]), EasyDeliveryCoLocation)
         fishing_town.add_locations(get_location_names_with_ids(["Fishing Town Radio Tower"]), EasyDeliveryCoLocation)
+
+    if world.options.vending_machines == 1:
+        upton.add_locations(get_location_names_with_ids(["Vending Machine in Upton"]), EasyDeliveryCoLocation)
+        weston.add_locations(get_location_names_with_ids(["Vending Machine in Weston"]), EasyDeliveryCoLocation)
+        easton.add_locations(get_location_names_with_ids(["Vending Machine in Easton"]), EasyDeliveryCoLocation)
+        winton.add_locations(get_location_names_with_ids(["Vending Machine in Winton"]), EasyDeliveryCoLocation)
+        munton_early.add_locations(get_location_names_with_ids(["Vending Machine in Lower Munton"]), EasyDeliveryCoLocation)
+        munton.add_locations(get_location_names_with_ids(["Vending Machine in Upper Munton"]), EasyDeliveryCoLocation)
+        lopton.add_locations(get_location_names_with_ids(["Vending Machine in Lopton"]), EasyDeliveryCoLocation)
+        clifton.add_locations(get_location_names_with_ids(["Vending Machine in Clifton"]), EasyDeliveryCoLocation)
+        damton.add_locations(get_location_names_with_ids(["Vending Machine in Upper Damton",
+                                                          "Vending Machine in Lower Damton"]), EasyDeliveryCoLocation)
+        smalton.add_locations(get_location_names_with_ids(["Vending Machine in Smalton (Left)",
+                                                           "Vending Machine in Smalton (Right)"]), EasyDeliveryCoLocation)
+
+    if world.options.trash_bins == 1:
+        upton_bins = get_location_names_with_ids([
+            "Upton Red Bin Easy Flowers",
+            "Upton Blue Bin Easy Flowers",
+            "Upton Blue Bin Between Easy Flowers and Easy Eats",
+            "Upton Blue Bin Easy Eats",
+            "Upton Red Bin Easy Eats",
+            "Upton Red Bin Town Edge",
+        ])
+        weston_bins = get_location_names_with_ids([
+            "Weston Blue Bin Entry",
+            "Weston Red Bin Entry",
+            "Weston Blue Bin Across EZ Bakery",
+            "Weston Red Bin EZ Bakery",
+            "Weston Blue Bin EZ Bakery",
+            "Weston Red Bin Bar Upper",
+            "Weston Blue Bin Easy Depot",
+            "Weston Blue Bin Bar Lower",
+            "Weston Red Bin EZ Cafe",
+        ])
+        easton_bins = get_location_names_with_ids([
+            "Easton Blue Bin EZ Mart",
+            "Easton Red Bin Fuel",
+            "Easton Blue Bin Fuel",
+            "Easton Blue Bin Easy Pizza",
+            "Easton Red Bin Easy Pizza",
+        ])
+        winton_bins = get_location_names_with_ids([
+            "Winton Blue Bin Easy Flowers",
+            "Winton Red Bin Easy Eats",
+            "Winton Blue Bin Fuel",
+            "Winton Red Bin Fuel",
+        ])
+        munton_early_bins = get_location_names_with_ids([
+            "Munton Red Bin Pawn Shop"
+        ])
+        munton_bins = get_location_names_with_ids([
+            "Munton Red Bin EZ Mart",
+            "Munton Blue Bin EZ Mart"
+        ])
+        lopton_bins = get_location_names_with_ids([
+            "Lopton Red Bin Bar",
+            "Lopton Red Bin Easy Depot",
+            "Lopton Blue Bin Easy Depot",
+        ])
+        clifton_bins = get_location_names_with_ids([
+            "Clifton Red Bin Bar",
+            "Clifton Blue Bin Bar",
+            "Clifton Blue Bin EZ Mart",
+            "Clifton Red Bin EZ Mart",
+        ])
+        damton_bins = get_location_names_with_ids([
+            "Damton Red Bin Bar",
+            "Damton Blue Bin Bar",
+            "Damton Red Bin Easy Depot",
+            "Damton Blue Bin Easy Depot",
+        ])
+        smalton_bins = get_location_names_with_ids([
+            "Smalton Blue Bin Easy Pizza",
+            "Smalton Red Bin Easy Pizza",
+            "Smalton Red Bin Easy Eats",
+            "Smalton Blue Bin Easy Eats",
+        ])
+
+        upton.add_locations(upton_bins, EasyDeliveryCoLocation)
+        weston.add_locations(weston_bins, EasyDeliveryCoLocation)
+        easton.add_locations(easton_bins, EasyDeliveryCoLocation)
+        winton.add_locations(winton_bins, EasyDeliveryCoLocation)
+        munton_early.add_locations(munton_early_bins, EasyDeliveryCoLocation)
+        munton.add_locations(munton_bins, EasyDeliveryCoLocation)
+        lopton.add_locations(lopton_bins, EasyDeliveryCoLocation)
+        clifton.add_locations(clifton_bins, EasyDeliveryCoLocation)
+        damton.add_locations(damton_bins, EasyDeliveryCoLocation)
+        smalton.add_locations(smalton_bins, EasyDeliveryCoLocation)
 
     mountain_town.add_locations(mountain_town_locations, EasyDeliveryCoLocation)
     snowy_peaks.add_locations(snowy_peaks_locations, EasyDeliveryCoLocation)

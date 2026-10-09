@@ -69,6 +69,8 @@ class EasyDeliveryCoWorld(World):
             "blocked_tunnels": self.options.blocked_tunnels.value,
             "require_handheld_radio": self.options.require_handheld_radio.value,
             "radio_towers": self.options.radio_towers.value,
+            "vending_machines": self.options.vending_machines.value,
+            "trash_bins": self.options.trash_bins.value,
             "car_upgrades": self.options.car_upgrades.value,
             "progressive_car_upgrades": self.options.progressive_car_upgrades.value,
             "randomize_trail_color": self.randomize_trail_color,

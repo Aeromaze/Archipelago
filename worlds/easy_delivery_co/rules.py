@@ -62,6 +62,16 @@ def set_all_entrance_rules(world: EasyDeliveryCoWorld) -> None:
     mountain_town_to_fishing_town_tunnel = world.get_entrance("Mountain Town to Fishing Town tunnel")
     fishing_town_entry_to_fishing_town = world.get_entrance("Fishing Town entry to Fishing Town")
     snowy_peaks_to_all_towns = world.get_entrance("Snowy Peaks to All towns")
+    mountain_town_to_upton = world.get_entrance("Mountain Town to Upton")
+    mountain_town_to_weston = world.get_entrance("Mountain Town to Weston")
+    mountain_town_to_easton = world.get_entrance("Mountain Town to Easton")
+    snowy_peaks_early_to_winton = world.get_entrance("Snowy Peaks early to Winton")
+    snowy_peaks_early_to_munton_early = world.get_entrance("Snowy Peaks early to Munton early")
+    snowy_peaks_to_munton = world.get_entrance("Snowy Peaks to Munton")
+    snowy_peaks_to_lopton = world.get_entrance("Snowy Peaks to Lopton")
+    fishing_town_to_clifton = world.get_entrance("Fishing Town to Clifton")
+    fishing_town_to_damton = world.get_entrance("Fishing Town to Damton")
+    fishing_town_to_smalton = world.get_entrance("Fishing Town to Smalton")
 
     world.set_rule(snowy_peaks_tunnel_to_snowy_peaks_early,
              has_snow_tires(world))
@@ -83,6 +93,18 @@ def set_all_entrance_rules(world: EasyDeliveryCoWorld) -> None:
 
     world.set_rule(snowy_peaks_to_all_towns,
              CanReachRegion("Fishing Town"))
+
+    if world.options.lock_towns:
+        world.set_rule(mountain_town_to_upton, Has("Upton"))
+        world.set_rule(mountain_town_to_weston, Has("Weston"))
+        world.set_rule(mountain_town_to_easton, Has("Easton"))
+        world.set_rule(snowy_peaks_early_to_winton, Has("Winton"))
+        world.set_rule(snowy_peaks_early_to_munton_early, Has("Munton"))
+        world.set_rule(snowy_peaks_to_munton, Has("Munton"))
+        world.set_rule(snowy_peaks_to_lopton, Has("Lopton"))
+        world.set_rule(fishing_town_to_clifton, Has("Clifton"))
+        world.set_rule(fishing_town_to_damton, Has("Damton"))
+        world.set_rule(fishing_town_to_smalton, Has("Smalton"))
 
 
 def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:

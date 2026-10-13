@@ -102,6 +102,13 @@ class TrashBins(Toggle):
     display_name = "Trash Bins"
 
 
+class Signs(Toggle):
+    """
+    Enable locations for driving past signs.
+    """
+    display_name = "Signs"
+
+
 class CarUpgrades(Choice):
     """
     How car upgrades should work when received.
@@ -221,6 +228,7 @@ class EasyDeliveryCoOptions(PerGameCommonOptions):
     radio_towers: RadioTowers
     vending_machines: VendingMachines
     trash_bins: TrashBins
+    signs: Signs
     car_upgrades: CarUpgrades
     progressive_car_upgrades: ProgressiveCarUpgrades
     blocked_tunnels: BlockedTunnels
@@ -233,6 +241,6 @@ option_groups = [
     OptionGroup(
         "Locations",
         [PayloadChecks, PerfectDeliveries, IntercityDeliveries, BlindBags, Snowcats, RadioTowers, VendingMachines,
-         TrashBins]
+         TrashBins, Signs]
     )
 ]

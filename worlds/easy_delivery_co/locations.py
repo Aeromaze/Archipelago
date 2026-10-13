@@ -114,6 +114,60 @@ LOCATION_NAME_TO_ID = {
     "Smalton Red Bin Easy Pizza": 160,
     "Smalton Red Bin Easy Eats": 161,
     "Smalton Blue Bin Easy Eats": 162,
+    # Signs
+    "Sign Upton (Welcome to Mountain Town)": 200,
+    "Sign Upton (To Weston, To Easton)": 201,
+    "Sign Upton (Upton Radio Tower)": 202,
+    "Sign Upper Weston (To Upton)": 203, # Group 1
+    "Sign Upper Weston (To Easton)": 204, # Group 1
+    "Sign Weston (Factory)": 205,
+    "Sign Weston (To Upton)": 206, # Group 2
+    "Sign Weston (To Easton)": 207, # Group 2
+    "Sign Weston Bar (To Easton)": 208,
+    "Sign Weston Bridge (To Easton)": 209,
+    "Sign Easton (To Weston, To Upton)": 210, # Group 3 after bridge
+    "Sign Easton (Tunnel to Fishing Town)": 211, # Group 3
+    "Sign Easton (Easton)": 212, # Group 3
+    "Sign Easton Edge (Tunnel to Fishing Town)": 213, # Easton edge before radio
+    "Sign Easton Edge (Easton Radio Tower)": 214,
+    "Sign Easton Tunnel (Tunnel to Fishing Town)": 215, # near tunnel
+
+    "Sign Winton (Welcome to Snowy Peaks)": 216, # Group 1
+    "Sign Winton (To Munton)": 217, # Group 1
+    "Sign Winton (Winton)": 218, # Group 1
+    "Sign Munton (Munton)": 219,
+    "Sign Munton (To Winton)": 220, # Group 2
+    "Sign Munton (To Lopton)": 221, # Group 2
+    "Sign Munton (Upper Munton)": 222, # Group 2
+    "Sign Lopton (Lopton)": 223,
+    "Sign Lopton (To Munton, To Winton)": 224, # Group 3
+    "Sign Lopton (Snowy Peaks Radio Tower)": 225, # Group 3
+
+    "Sign Clifton (Welcome to Fishing Town)": 226,
+    "Sign Clifton (Tunnel to Mountain Town)": 227, # Group 1 Junction to Clifton
+    "Sign Clifton (To Smalton, To Damton)": 228, # Group 1
+    "Sign Clifton (Clifton)": 229, # Group 1
+    "Sign Clifton Fork (Tunnel to Mountain Town)": 230, # Group 2 Clifton exit
+    "Sign Clifton Fork (To Smalton, To Damton)": 231, # Group 2
+    "Sign Clifton (To Damton)": 232, # Group 3 fork in road
+    "Sign Clifton (To Smalton)": 233, # Group 3
+    "Sign Lower Clifton Right (Leaving Clifton)": 234, # Group 4 ring road right fork
+    "Sign Lower Clifton Right (To Smalton)": 235, # Group 4
+    "Sign Lower Clifton Right (To Damton)": 236, # Group 4
+    "Sign Lower Clifton Left (To Damton)": 237, # Group 5 ring road left fork
+    "Sign Lower Clifton Left (To Smalton)": 238, # Group 5
+    "Sign Lower Clifton Left (Leaving Clifton)": 239, # Group 5
+    "Sign Smalton Bridge (Smalton)": 240,
+    "Sign Smalton (To Damton)": 241, # Dam
+    "Sign Damton Dam (To Smalton)": 242, # Group 6 Dam
+    "Sign Damton Dam (To Clifton, To Smalton)": 243, # Group 6
+    "Sign Damton Dam (Leaving Damton)": 244, # Group 6
+    "Sign Damton (Upper Damton)": 245,
+    "Sign Damton (Lower Damton)": 246,
+    "Sign Damton (Damton)": 247, # Group 7
+    "Sign Damton (To Clifton, To Smalton)": 248, # Group 7
+    "Sign Damton (To Smalton)": 249, # Group 7
+    "Sign Damton (To Damton)": 250, # road between Clifton and Damton
 }
 
 TOWN_NAME_TO_ID = {
@@ -395,6 +449,72 @@ def create_regular_locations(world: EasyDeliveryCoWorld) -> None:
         clifton.add_locations(clifton_bins, EasyDeliveryCoLocation)
         damton.add_locations(damton_bins, EasyDeliveryCoLocation)
         smalton.add_locations(smalton_bins, EasyDeliveryCoLocation)
+
+    if world.options.signs:
+        mountain_town_signs = get_location_names_with_ids([
+            "Sign Upton (Welcome to Mountain Town)",
+            "Sign Upton (To Weston, To Easton)",
+            "Sign Upton (Upton Radio Tower)",
+            "Sign Upper Weston (To Upton)",
+            "Sign Upper Weston (To Easton)",
+            "Sign Weston (Factory)",
+            "Sign Weston (To Upton)",
+            "Sign Weston (To Easton)",
+            "Sign Weston Bar (To Easton)",
+            "Sign Weston Bridge (To Easton)",
+            "Sign Easton (To Weston, To Upton)",
+            "Sign Easton (Tunnel to Fishing Town)",
+            "Sign Easton (Easton)",
+            "Sign Easton Edge (Tunnel to Fishing Town)",
+            "Sign Easton Edge (Easton Radio Tower)",
+            "Sign Easton Tunnel (Tunnel to Fishing Town)",
+        ])
+        snowy_peaks_early_signs = get_location_names_with_ids([
+            "Sign Winton (Welcome to Snowy Peaks)",
+            "Sign Winton (To Munton)",
+            "Sign Winton (Winton)",
+            "Sign Munton (Munton)",
+        ])
+        snowy_peaks_signs = get_location_names_with_ids([
+            "Sign Munton (To Winton)",
+            "Sign Munton (To Lopton)",
+            "Sign Munton (Upper Munton)",
+            "Sign Lopton (Lopton)",
+            "Sign Lopton (To Munton, To Winton)",
+            "Sign Lopton (Snowy Peaks Radio Tower)",
+        ])
+        fishing_town_signs = get_location_names_with_ids([
+            "Sign Clifton (Welcome to Fishing Town)",
+            "Sign Clifton (Tunnel to Mountain Town)",
+            "Sign Clifton (To Smalton, To Damton)",
+            "Sign Clifton (Clifton)",
+            "Sign Clifton Fork (Tunnel to Mountain Town)",
+            "Sign Clifton Fork (To Smalton, To Damton)",
+            "Sign Clifton (To Damton)",
+            "Sign Clifton (To Smalton)",
+            "Sign Lower Clifton Right (Leaving Clifton)",
+            "Sign Lower Clifton Right (To Smalton)",
+            "Sign Lower Clifton Right (To Damton)",
+            "Sign Lower Clifton Left (To Damton)",
+            "Sign Lower Clifton Left (To Smalton)",
+            "Sign Lower Clifton Left (Leaving Clifton)",
+            "Sign Smalton Bridge (Smalton)",
+            "Sign Smalton (To Damton)",
+            "Sign Damton Dam (To Smalton)",
+            "Sign Damton Dam (To Clifton, To Smalton)",
+            "Sign Damton Dam (Leaving Damton)",
+            "Sign Damton (Upper Damton)",
+            "Sign Damton (Lower Damton)",
+            "Sign Damton (Damton)",
+            "Sign Damton (To Clifton, To Smalton)",
+            "Sign Damton (To Smalton)",
+            "Sign Damton (To Damton)",
+        ])
+
+        mountain_town.add_locations(mountain_town_signs, EasyDeliveryCoLocation)
+        snowy_peaks_early.add_locations(snowy_peaks_early_signs, EasyDeliveryCoLocation)
+        snowy_peaks.add_locations(snowy_peaks_signs, EasyDeliveryCoLocation)
+        fishing_town.add_locations(fishing_town_signs, EasyDeliveryCoLocation)
 
     mountain_town.add_locations(mountain_town_locations, EasyDeliveryCoLocation)
     snowy_peaks.add_locations(snowy_peaks_locations, EasyDeliveryCoLocation)

@@ -87,12 +87,12 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Map": ItemClassification.progression,
     "Snow Tires": ItemClassification.progression,
     "Bumper Bar": ItemClassification.progression,
-    "Ice Chains": ItemClassification.progression,
+    "Ice Chains": ItemClassification.progression_skip_balancing,
     "Progressive Car Upgrade": ItemClassification.progression,
 
     "Snowy Peaks Tunnel": ItemClassification.progression,
     "Fishing Town Tunnel": ItemClassification.progression,
-    "Factory Tunnel": ItemClassification.progression,
+    "Factory Tunnel": ItemClassification.progression_skip_balancing,
 
     "Upton": ItemClassification.progression,
     "Weston": ItemClassification.progression,
@@ -118,7 +118,7 @@ def get_random_filler_item_name(world: EasyDeliveryCoWorld) -> str:
         case 0:
             return "Energy Drink"
         case 1:
-            if world.options.trash_bins:
+            if world.options.garbage_bins:
                 return "Empty Can"
             else:
                 return "Energy Drink"

@@ -279,7 +279,6 @@ def set_all_location_rules(world: EasyDeliveryCoWorld) -> None:
                            has_bar)
 
 
-# TODO Consider changing to victory event
 def set_completion_condition(world: EasyDeliveryCoWorld) -> None:
     tunnels_not_blocked = OptionFilter(BlockedTunnels, False)
     upgrades_received_directly = OptionFilter(CarUpgrades, 1)

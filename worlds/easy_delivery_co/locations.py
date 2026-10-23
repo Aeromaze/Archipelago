@@ -375,7 +375,7 @@ def create_regular_locations(world: EasyDeliveryCoWorld) -> None:
         smalton.add_locations(get_location_names_with_ids(["Vending Machine in Smalton (Left)",
                                                            "Vending Machine in Smalton (Right)"]), EasyDeliveryCoLocation)
 
-    if world.options.trash_bins == 1:
+    if world.options.garbage_bins == 1:
         upton_bins = get_location_names_with_ids([
             "Upton Red Bin Easy Flowers",
             "Upton Blue Bin Easy Flowers",

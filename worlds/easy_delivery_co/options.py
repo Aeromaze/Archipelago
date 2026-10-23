@@ -95,11 +95,11 @@ class VendingMachines(Toggle):
     display_name = "Vending Machines"
 
 
-class TrashBins(Toggle):
+class GarbageBins(Toggle):
     """
-    Enable locations for using trash bins.
+    Enable locations for using garbage bins.
     """
-    display_name = "Trash Bins"
+    display_name = "Garbage Bins"
 
 
 class Signs(Toggle):
@@ -227,7 +227,7 @@ class EasyDeliveryCoOptions(PerGameCommonOptions):
     snowcats: Snowcats
     radio_towers: RadioTowers
     vending_machines: VendingMachines
-    trash_bins: TrashBins
+    garbage_bins: GarbageBins
     signs: Signs
     car_upgrades: CarUpgrades
     progressive_car_upgrades: ProgressiveCarUpgrades
@@ -241,6 +241,6 @@ option_groups = [
     OptionGroup(
         "Locations",
         [PayloadChecks, PerfectDeliveries, IntercityDeliveries, BlindBags, Snowcats, RadioTowers, VendingMachines,
-         TrashBins, Signs]
+         GarbageBins, Signs]
     )
 ]

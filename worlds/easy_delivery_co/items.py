@@ -237,7 +237,7 @@ def create_all_items(world: EasyDeliveryCoWorld) -> None:
 
 
 item_name_groups: dict[str, set[str]] = {
-    "Town": {"Upton", "Weston", "Easton", "Winton", "Munton", "Lopton", "Clifton", "Damton", "Smalton"},
-    "Car Upgrade": {"Snow Tires", "Bumper Bar", "Ice Chains", "Progressive Car Upgrade"},
-    "Tunnel": {"Snowy Peaks Tunnel", "Fishing Town Tunnel", "Factory Tunnel"}
+    "Towns": {"Upton", "Weston", "Easton", "Winton", "Munton", "Lopton", "Clifton", "Damton", "Smalton"},
+    "Car Upgrades": {"Snow Tires", "Bumper Bar", "Ice Chains", "Progressive Car Upgrade"},
+    "Tunnels": {"Snowy Peaks Tunnel", "Fishing Town Tunnel", "Factory Tunnel"}
 }

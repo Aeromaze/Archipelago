@@ -12,6 +12,8 @@
 
 ## Installation
 
+The mod is also available on [Thunderstore](https://thunderstore.io/c/easy-delivery-co/p/Aeromaze/EasyDeliveryCoArchipelago/)
+
 ### Find Your Relevant Game Directories
 
 Find your Easy Deliver Co. game installation directory:

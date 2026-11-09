@@ -45,6 +45,6 @@ Copy the `EasyDeliveryAP` folder into `BepInEx/plugins` in your Easy Delivery Co
 
 Copy the `BepInEx` folder from `EasyDeliveryAPI.zip` into your Easy Delivery Co. game installation directory.
 
-The filepath to the mode should look like `BepInEx/plugins/EasyDeliveryAP/EasyDeliveryAP.dll`<br>
+The filepath to the mod should look like `BepInEx/plugins/EasyDeliveryAP/EasyDeliveryAP.dll`<br>
 
 Launch the game, and if everything was installed correctly you should see `EasyDeliveryAP vx.y.z` in the top left corner.

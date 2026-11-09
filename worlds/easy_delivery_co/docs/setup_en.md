@@ -42,6 +42,7 @@ Download the latest release of the [Easy Delivery Randomizer Mod](https://github
 Extract the contents of the downloaded .zip files, and find the folders labeled EasyDeliveryAP and BepInEx
 
 Copy the `EasyDeliveryAP` folder into `BepInEx/plugins` in your Easy Delivery Co. game installation directory.
+
 Copy the `BepInEx` folder from `EasyDeliveryAPI.zip` into your Easy Delivery Co. game installation directory.
 
 The filepath to the mode should look like `BepInEx/plugins/EasyDeliveryAP/EasyDeliveryAP.dll`<br>
